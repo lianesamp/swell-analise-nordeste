@@ -57,9 +57,3 @@ Os dados foram coletados da reanálise ERA5, uma base global de dados climático
 Este estudo é exploratório e baseado em dados de reanálise. Para aplicações científicas ou operacionais, recomenda-se utilizar dados adicionais in situ e realizar análises mais robustas.
 
 ---
-
-## Como rodar o projeto localmente
-
-1. Clone o repositório:  
-   ```bash
-   git clone https://github.com/seu-usuario/seu-projeto-swell.git
