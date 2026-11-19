@@ -65,10 +65,27 @@ DEFAULT_DIRECTION = "N/NE"
 # ---------------------------------------------------------------------------
 # Surf scenario levels
 #
-# Each scenario defines minimum period (s) and minimum height (m).
-# Direction filter is applied separately.
+# IMPORTANT: ERA5 mpts is MEAN period of total swell, while WW3 sper is
+# PEAK period of the dominant swell. Mean period is structurally lower than
+# peak period by roughly 3-4 seconds in this region.
+#
+# Therefore we define SEPARATE thresholds for each data source.
+# The scenarios are designed to produce comparable event detection rates.
+#
+# Approximate equivalence (from data analysis):
+#   WW3 peak >= 12s  ≈  ERA5 mean >= 9s
+#   WW3 peak >= 10s  ≈  ERA5 mean >= 7.5s
 # ---------------------------------------------------------------------------
-SCENARIOS = [
+SCENARIOS_ERA5 = [
+    {"name": "any_relevant",  "label": "Any relevant swell",  "period_min": 7.5, "height_min": 0.0},
+    {"name": "surfable",      "label": "Surfable",             "period_min": 9.0, "height_min": 0.8},
+    {"name": "good",          "label": "Good",                 "period_min": 9.0, "height_min": 1.0},
+    {"name": "strong",        "label": "Strong",               "period_min": 9.0, "height_min": 1.2},
+    {"name": "very_good",     "label": "Very good / strong",   "period_min": 9.0, "height_min": 1.5},
+    {"name": "exceptional",   "label": "Exceptional",          "period_min": 9.0, "height_min": 2.0},
+]
+
+SCENARIOS_WW3 = [
     {"name": "any_relevant",  "label": "Any relevant swell",  "period_min": 10, "height_min": 0.0},
     {"name": "surfable",      "label": "Surfable",             "period_min": 12, "height_min": 0.8},
     {"name": "good",          "label": "Good",                 "period_min": 12, "height_min": 1.0},
@@ -76,6 +93,9 @@ SCENARIOS = [
     {"name": "very_good",     "label": "Very good / strong",   "period_min": 12, "height_min": 1.5},
     {"name": "exceptional",   "label": "Exceptional",          "period_min": 12, "height_min": 2.0},
 ]
+
+# Default reference (for scripts that need a single list)
+SCENARIOS = SCENARIOS_ERA5
 
 # ---------------------------------------------------------------------------
 # Event detection
