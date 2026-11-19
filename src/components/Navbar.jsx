@@ -3,42 +3,34 @@ import { useState } from "react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const links = [
+    { href: "#home", label: "Home" },
+    { href: "#probabilidade", label: "Probabilidade" },
+    { href: "#grafico", label: "Gráfico" },
+    { href: "#timeline", label: "Timeline" },
+    { href: "#janelas", label: "Janelas" },
+  ];
+
   return (
     <nav className="bg-blue-600 text-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
+
           <div className="flex-shrink-0 font-bold text-xl cursor-pointer">
-            Análise Swell Nordeste
+            Swell Ceará
           </div>
 
           {/* Menu desktop */}
           <div className="hidden md:flex space-x-8">
-            <a
-              href="#home"
-              className="hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Home
-            </a>
-            <a
-              href="#resumo"
-              className="hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Resumo Anual
-            </a>
-            <a
-              href="#resumo-mensal"
-              className="hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Resumo Mensal
-            </a>
-            <a
-              href="#swell-ano"
-              className="hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Swell por Ano
-            </a>
-            
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
           {/* Hamburger menu mobile */}
@@ -92,27 +84,16 @@ const Navbar = () => {
       {/* Menu mobile */}
       {isOpen && (
         <div className="md:hidden bg-blue-700" id="mobile-menu">
-          <a
-            href="#home"
-            className="block px-4 py-2 text-sm hover:bg-blue-600"
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </a>
-          <a
-            href="#resumo"
-            className="block px-4 py-2 text-sm hover:bg-blue-600"
-            onClick={() => setIsOpen(false)}
-          >
-            Resumo Anual
-          </a>
-          <a
-            href="#swell-ano"
-            className="block px-4 py-2 text-sm hover:bg-blue-600"
-            onClick={() => setIsOpen(false)}
-          >
-            Swell por Ano
-          </a>
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="block px-4 py-2 text-sm hover:bg-blue-600"
+              onClick={() => setIsOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
       )}
     </nav>

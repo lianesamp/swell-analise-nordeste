@@ -1,9 +1,10 @@
 
-import SwellChart from './components/SwellChart';
-import SwellMensal from './components/SwellMensal';
-import SwellMaxPeriodoPorAno from './components/SwellMaxPeriodoAnual';
 import Navbar from './components/Navbar';
-import BannerInicial from './components/BannerInicial';
+import BannerCeara from './components/BannerCeara';
+import ProbabilidadeCenarios from './components/ProbabilidadeCenarios';
+import GraficoProbabilidade from './components/GraficoProbabilidade';
+import TimelineAnual from './components/TimelineAnual';
+import JanelasSurfaveis from './components/JanelasSurfaveis';
 
 
 function App() {
@@ -13,16 +14,19 @@ function App() {
         <Navbar/>
       </nav>
       <div id='home'>
-        <BannerInicial/>
+        <BannerCeara/>
       </div>
-      <main className="flex justify-center" id='resumo'>
-        <SwellChart />
-      </main>
-      <div className="flex justify-center " id='resumo-mensal'>
-        <SwellMensal/>
+      <div id='probabilidade'>
+        <ProbabilidadeCenarios/>
       </div>
-      <div className="flex justify-center" id='swell-ano'>
-        <SwellMaxPeriodoPorAno/>
+      <div id='grafico'>
+        <GraficoProbabilidade/>
+      </div>
+      <div id='timeline'>
+        <TimelineAnual/>
+      </div>
+      <div id='janelas'>
+        <JanelasSurfaveis/>
       </div>
     </div>
   );
