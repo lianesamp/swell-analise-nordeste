@@ -1,0 +1,527 @@
+ERA5 Quality Report — Ceará Swell Climatology
+Generated: 2026-11-19T16:03:53.833914
+Directory: C:\xampp\htdocs\swell-analise-nordeste\doc_swell\ERA5_CEARA_MARCO
+Years: 1979–2025
+Total files: 47
+Passed: 47
+Failed: 0
+
+======================================================================
+
+1979 [PASS]
+  File: era5_swell_marco_1979.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1980 [PASS]
+  File: era5_swell_marco_1980.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1981 [PASS]
+  File: era5_swell_marco_1981.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1982 [PASS]
+  File: era5_swell_marco_1982.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1983 [PASS]
+  File: era5_swell_marco_1983.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1984 [PASS]
+  File: era5_swell_marco_1984.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1985 [PASS]
+  File: era5_swell_marco_1985.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1986 [PASS]
+  File: era5_swell_marco_1986.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1987 [PASS]
+  File: era5_swell_marco_1987.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1988 [PASS]
+  File: era5_swell_marco_1988.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1989 [PASS]
+  File: era5_swell_marco_1989.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1990 [PASS]
+  File: era5_swell_marco_1990.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1991 [PASS]
+  File: era5_swell_marco_1991.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1992 [PASS]
+  File: era5_swell_marco_1992.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1993 [PASS]
+  File: era5_swell_marco_1993.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1994 [PASS]
+  File: era5_swell_marco_1994.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1995 [PASS]
+  File: era5_swell_marco_1995.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1996 [PASS]
+  File: era5_swell_marco_1996.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1997 [PASS]
+  File: era5_swell_marco_1997.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1998 [PASS]
+  File: era5_swell_marco_1998.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+1999 [PASS]
+  File: era5_swell_marco_1999.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2000 [PASS]
+  File: era5_swell_marco_2000.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2001 [PASS]
+  File: era5_swell_marco_2001.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2002 [PASS]
+  File: era5_swell_marco_2002.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2003 [PASS]
+  File: era5_swell_marco_2003.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2004 [PASS]
+  File: era5_swell_marco_2004.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2005 [PASS]
+  File: era5_swell_marco_2005.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2006 [PASS]
+  File: era5_swell_marco_2006.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2007 [PASS]
+  File: era5_swell_marco_2007.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2008 [PASS]
+  File: era5_swell_marco_2008.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2009 [PASS]
+  File: era5_swell_marco_2009.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2010 [PASS]
+  File: era5_swell_marco_2010.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2011 [PASS]
+  File: era5_swell_marco_2011.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2012 [PASS]
+  File: era5_swell_marco_2012.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2013 [PASS]
+  File: era5_swell_marco_2013.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2014 [PASS]
+  File: era5_swell_marco_2014.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2015 [PASS]
+  File: era5_swell_marco_2015.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2016 [PASS]
+  File: era5_swell_marco_2016.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2017 [PASS]
+  File: era5_swell_marco_2017.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2018 [PASS]
+  File: era5_swell_marco_2018.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2019 [PASS]
+  File: era5_swell_marco_2019.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2020 [PASS]
+  File: era5_swell_marco_2020.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2021 [PASS]
+  File: era5_swell_marco_2021.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2022 [PASS]
+  File: era5_swell_marco_2022.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2023 [PASS]
+  File: era5_swell_marco_2023.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2024 [PASS]
+  File: era5_swell_marco_2024.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
+2025 [PASS]
+  File: era5_swell_marco_2025.nc
+  Timestamps: 336/336
+  Duplicates: 0
+  Gaps: 0
+  Lat OK: True, Lon OK: True
+  NaN — shts: 0, mdts: 0, mpts: 0
+  Dir out of range: 0
+  Period invalid: 0
+  Height negative: 0
+
