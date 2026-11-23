@@ -1,5 +1,14 @@
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
+import { useMemo } from "react";
+import { useCearaData } from "../hooks/useCearaData";
+
+const SCENARIO_ORDER = [
+  "any_relevant",
+  "surfable",
+  "good",
+  "strong",
+  "very_good",
+  "exceptional",
+];
 
 const probColor = (p) => {
   if (p >= 0.8) return "bg-green-100 text-green-800";
@@ -9,46 +18,29 @@ const probColor = (p) => {
 };
 
 const ProbabilidadeCenarios = () => {
-  const [scenarios, setScenarios] = useState([]);
+  const { climatologia, loading } = useCearaData();
 
-  useEffect(() => {
-    Papa.parse("/data/ceara/climatologia.csv", {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      complete: (result) => {
-        const rows = result.data.filter((d) => d.scenario && d.week);
-        const grouped = {};
+  const scenarios = useMemo(() => {
+    const rows = climatologia.filter((d) => d.scenario && d.week);
+    const grouped = {};
 
-        rows.forEach((row) => {
-          if (!grouped[row.scenario]) {
-            grouped[row.scenario] = {
-              name: row.scenario_label,
-              period: row.period_min,
-              height: row.height_min,
-            };
-          }
-          grouped[row.scenario][row.week] = row;
-        });
-
-        const order = [
-          "any_relevant",
-          "surfable",
-          "good",
-          "strong",
-          "very_good",
-          "exceptional",
-        ];
-        const sorted = order
-          .filter((k) => grouped[k])
-          .map((k) => ({ key: k, ...grouped[k] }));
-
-        setScenarios(sorted);
-      },
+    rows.forEach((row) => {
+      if (!grouped[row.scenario]) {
+        grouped[row.scenario] = {
+          name: row.scenario_label,
+          period: row.period_min,
+          height: row.height_min,
+        };
+      }
+      grouped[row.scenario][row.week] = row;
     });
-  }, []);
 
-  if (scenarios.length === 0) return null;
+    return SCENARIO_ORDER
+      .filter((k) => grouped[k])
+      .map((k) => ({ key: k, ...grouped[k] }));
+  }, [climatologia]);
+
+  if (loading || scenarios.length === 0) return null;
 
   return (
     <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">

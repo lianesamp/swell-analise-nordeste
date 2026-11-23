@@ -7,8 +7,11 @@ const Navbar = () => {
     { href: "#home", label: "Home" },
     { href: "#probabilidade", label: "Probabilidade" },
     { href: "#grafico", label: "Gráfico" },
+    { href: "#direccion", label: "Direção" },
+    { href: "#distribucion", label: "Estatísticas" },
     { href: "#timeline", label: "Timeline" },
     { href: "#janelas", label: "Janelas" },
+    { href: "#eventos", label: "Eventos" },
   ];
 
   return (

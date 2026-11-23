@@ -1,32 +1,41 @@
-
 import Navbar from './components/Navbar';
 import BannerCeara from './components/BannerCeara';
 import ProbabilidadeCenarios from './components/ProbabilidadeCenarios';
 import GraficoProbabilidade from './components/GraficoProbabilidade';
+import DireccionSwell from './components/DireccionSwell';
+import DistribucionEventos from './components/DistribucionEventos';
 import TimelineAnual from './components/TimelineAnual';
 import JanelasSurfaveis from './components/JanelasSurfaveis';
-
+import EventosDetalle from './components/EventosDetalle';
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav>
-        <Navbar/>
-      </nav>
-      <div id='home'>
-        <BannerCeara/>
+      <Navbar />
+
+      <div id="home">
+        <BannerCeara />
       </div>
-      <div id='probabilidade'>
-        <ProbabilidadeCenarios/>
+      <div id="probabilidade">
+        <ProbabilidadeCenarios />
       </div>
-      <div id='grafico'>
-        <GraficoProbabilidade/>
+      <div id="grafico">
+        <GraficoProbabilidade />
       </div>
-      <div id='timeline'>
-        <TimelineAnual/>
+      <div id="direccion">
+        <DireccionSwell />
       </div>
-      <div id='janelas'>
-        <JanelasSurfaveis/>
+      <div id="distribucion">
+        <DistribucionEventos />
+      </div>
+      <div id="timeline">
+        <TimelineAnual />
+      </div>
+      <div id="janelas">
+        <JanelasSurfaveis />
+      </div>
+      <div id="eventos">
+        <EventosDetalle />
       </div>
     </div>
   );

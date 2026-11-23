@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
+import { useState } from "react";
+import { useCearaData } from "../hooks/useCearaData";
 import {
   ResponsiveContainer,
   BarChart,
@@ -13,26 +13,16 @@ import {
 } from "recharts";
 
 const TimelineAnual = () => {
-  const [data, setData] = useState([]);
+  const { resumoAnual, loading } = useCearaData();
   const [activeWeek, setActiveWeek] = useState("week3");
 
-  useEffect(() => {
-    Papa.parse("/data/ceara/resumo_anual.csv", {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      complete: (result) => {
-        const rows = result.data.filter((d) => d.year && d.week);
-        setData(rows);
-      },
-    });
-  }, []);
+  const data = resumoAnual.filter((d) => d.year && d.week);
 
   const weekData = data
     .filter((d) => d.week === activeWeek)
     .sort((a, b) => a.year - b.year);
 
-  if (weekData.length === 0) return null;
+  if (loading || weekData.length === 0) return null;
 
   const weekLabel =
     activeWeek === "week3" ? "15–21 março" : "22–28 março";

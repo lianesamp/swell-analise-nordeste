@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
+import { useMemo } from "react";
+import { useCearaData } from "../hooks/useCearaData";
 import {
   ResponsiveContainer,
   LineChart,
@@ -20,35 +20,26 @@ const WINDOW_KEYS = [
 ];
 
 const JanelasSurfaveis = () => {
-  const [chartData, setChartData] = useState([]);
+  const { climatologia, loading } = useCearaData();
 
-  useEffect(() => {
-    Papa.parse("/data/ceara/climatologia.csv", {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      complete: (result) => {
-        const rows = result.data.filter(
-          (d) => d.scenario === "good" && d.week
-        );
+  const chartData = useMemo(() => {
+    const rows = climatologia.filter(
+      (d) => d.scenario === "good" && d.week
+    );
 
-        const w3 = rows.find((d) => d.week === "week3");
-        const w4 = rows.find((d) => d.week === "week4");
+    const w3 = rows.find((d) => d.week === "week3");
+    const w4 = rows.find((d) => d.week === "week4");
 
-        if (!w3 || !w4) return;
+    if (!w3 || !w4) return [];
 
-        const points = WINDOWS.map((label, i) => ({
-          window: label,
-          week3: +(w3[WINDOW_KEYS[i]] * 100).toFixed(1),
-          week4: +(w4[WINDOW_KEYS[i]] * 100).toFixed(1),
-        }));
+    return WINDOWS.map((label, i) => ({
+      window: label,
+      week3: +(w3[WINDOW_KEYS[i]] * 100).toFixed(1),
+      week4: +(w4[WINDOW_KEYS[i]] * 100).toFixed(1),
+    }));
+  }, [climatologia]);
 
-        setChartData(points);
-      },
-    });
-  }, []);
-
-  if (chartData.length === 0) return null;
+  if (loading || chartData.length === 0) return null;
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload || !payload.length) return null;

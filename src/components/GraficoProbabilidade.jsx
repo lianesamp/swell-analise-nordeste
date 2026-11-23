@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
+import { useMemo } from "react";
+import { useCearaData } from "../hooks/useCearaData";
 import {
   ResponsiveContainer,
   BarChart,
@@ -13,56 +13,48 @@ import {
   ErrorBar,
 } from "recharts";
 
+const SCENARIO_ORDER = [
+  "any_relevant",
+  "surfable",
+  "good",
+  "strong",
+  "very_good",
+  "exceptional",
+];
+
 const GraficoProbabilidade = () => {
-  const [chartData, setChartData] = useState([]);
+  const { climatologia, loading } = useCearaData();
 
-  useEffect(() => {
-    Papa.parse("/data/ceara/climatologia.csv", {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      complete: (result) => {
-        const rows = result.data.filter((d) => d.scenario && d.week);
+  const chartData = useMemo(() => {
+    const rows = climatologia.filter((d) => d.scenario && d.week);
 
-        const grouped = {};
-        rows.forEach((row) => {
-          if (!grouped[row.scenario]) {
-            grouped[row.scenario] = {
-              scenario: row.scenario,
-              label: row.scenario_label,
-            };
-          }
-          const prob = row.probability * 100;
-          const ciLow = row.ci_low * 100;
-          const ciHigh = row.ci_high * 100;
+    const grouped = {};
+    rows.forEach((row) => {
+      if (!grouped[row.scenario]) {
+        grouped[row.scenario] = {
+          scenario: row.scenario,
+          label: row.scenario_label,
+        };
+      }
+      const prob = row.probability * 100;
+      const ciLow = row.ci_low * 100;
+      const ciHigh = row.ci_high * 100;
 
-          if (row.week === "week3") {
-            grouped[row.scenario].week3 = prob;
-            grouped[row.scenario].week3_err = [prob - ciLow, ciHigh - prob];
-          } else {
-            grouped[row.scenario].week4 = prob;
-            grouped[row.scenario].week4_err = [prob - ciLow, ciHigh - prob];
-          }
-        });
-
-        const order = [
-          "any_relevant",
-          "surfable",
-          "good",
-          "strong",
-          "very_good",
-          "exceptional",
-        ];
-        const sorted = order
-          .filter((k) => grouped[k])
-          .map((k) => grouped[k]);
-
-        setChartData(sorted);
-      },
+      if (row.week === "week3") {
+        grouped[row.scenario].week3 = prob;
+        grouped[row.scenario].week3_err = [prob - ciLow, ciHigh - prob];
+      } else {
+        grouped[row.scenario].week4 = prob;
+        grouped[row.scenario].week4_err = [prob - ciLow, ciHigh - prob];
+      }
     });
-  }, []);
 
-  if (chartData.length === 0) return null;
+    return SCENARIO_ORDER
+      .filter((k) => grouped[k])
+      .map((k) => grouped[k]);
+  }, [climatologia]);
+
+  if (loading || chartData.length === 0) return null;
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload) return null;

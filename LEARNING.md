@@ -55,3 +55,15 @@ New terms and concepts encountered in this project.
 | **Scenario levels** | Different combinations of thresholds used to classify swell intensity. From "any relevant" (loose) to "exceptional" (strict). Each scenario answers a different question: "Will there be ANY swell?" vs "Will there be GREAT swell?" |
 | **Surfable window** | A continuous block of time with favorable conditions. Important for trip planning: a single hour of swell has less practical value than 12 hours. We calculate the probability of windows ≥3h, ≥6h, ≥12h, ≥24h. |
 | **ERA5 vs WW3 threshold calibration** | Because ERA5 uses mean period (~3-4s lower than peak period), the thresholds must be different. WW3 "period ≥ 12s" is roughly equivalent to ERA5 "period ≥ 9s". This calibration was derived by comparing the distributions of both datasets. |
+
+---
+
+## React Patterns
+
+| Term | Explanation |
+|------|-------------|
+| **Custom Hook** | A reusable function starting with `use` that encapsulates stateful logic. Similar to Vue composables (`useFetch`, `useCounter`) or Laravel Service classes. Example: `useCearaData()` loads 3 CSVs once and shares the parsed data across all components that call it — avoiding duplicate fetches. |
+| **useMemo** | A React hook that caches (memoizes) a computed value and only recalculates when its dependencies change. Like Vue's `computed()`. Use it when you transform raw data into display-ready data — prevents re-processing on every render. |
+| **Controlled Component** | A form input (select, input, checkbox) where React state is the single source of truth. The input displays the state value, and `onChange` updates it. Similar to `v-model` in Vue: `<select value={x} onChange={e => setX(e.target.value)}>`. |
+| **Module-level cache** | A variable declared outside any component that persists across renders and component instances. Unlike `useState` (per-component), a module-level variable is shared by all components that import the same module. Used in `useCearaData` to avoid re-fetching CSVs. |
+| **Smooth scrolling** | CSS `scroll-behavior: smooth` makes anchor link navigation (`#section`) scroll smoothly instead of jumping. One line of CSS that improves UX significantly. |
