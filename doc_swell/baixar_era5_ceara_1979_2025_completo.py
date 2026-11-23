@@ -14,8 +14,6 @@ ANO_FINAL = 2025
 # Formato da área: [Norte, Oeste, Sul, Leste]
 AREA = [-3.5, -38.5, -3.5, -38.5]
 
-MESES = [f"{m:02d}" for m in range(1, 13)]
-
 DIAS = [f"{d:02d}" for d in range(1, 32)]  # CDS ignora dias inválidos (ex: 31 de fev)
 
 HORAS = [
@@ -29,64 +27,74 @@ HORAS = [
 
 client = cdsapi.Client()
 
+total_ok = 0
+total_skip = 0
+total_err = 0
+
 for ano in range(ANO_INICIAL, ANO_FINAL + 1):
-    nome_arquivo = f"era5_swell_{ano}.nc"
-    arquivo = os.path.join(PASTA, nome_arquivo)
+    for mes in range(1, 13):
+        mes_str = f"{mes:02d}"
+        nome_arquivo = f"era5_swell_{ano}_{mes_str}.nc"
+        arquivo = os.path.join(PASTA, nome_arquivo)
 
-    # Permite retomar sem baixar novamente arquivos já existentes
-    if os.path.exists(arquivo) and os.path.getsize(arquivo) > 10000:
-        print(f"{ano}: arquivo já existe ({os.path.getsize(arquivo):,} bytes). Pulando.")
-        continue
+        # Permite retomar sem baixar novamente arquivos já existentes
+        if os.path.exists(arquivo) and os.path.getsize(arquivo) > 10000:
+            print(f"{ano}-{mes_str}: already exists ({os.path.getsize(arquivo):,} bytes). Skipping.")
+            total_skip += 1
+            continue
 
-    request = {
-        "product_type": "reanalysis",
-        "variable": [
-            "significant_height_of_total_swell",
-            "mean_direction_of_total_swell",
-            "mean_period_of_total_swell"
-        ],
-        "year": str(ano),
-        "month": MESES,
-        "day": DIAS,
-        "time": HORAS,
-        "area": AREA,
-        "format": "netcdf"
-    }
+        request = {
+            "product_type": "reanalysis",
+            "variable": [
+                "significant_height_of_total_swell",
+                "mean_direction_of_total_swell",
+                "mean_period_of_total_swell"
+            ],
+            "year": str(ano),
+            "month": mes_str,
+            "day": DIAS,
+            "time": HORAS,
+            "area": AREA,
+            "format": "netcdf"
+        }
 
-    print()
-    print("=" * 60)
-    print(f"BAIXANDO {ano} (ano completo — 12 meses)")
-    print("=" * 60)
+        print()
+        print("=" * 60)
+        print(f"DOWNLOADING {ano}-{mes_str}")
+        print("=" * 60)
 
-    try:
-        client.retrieve(
-            "reanalysis-era5-single-levels",
-            request,
-            arquivo
-        )
-        tamanho = os.path.getsize(arquivo)
-        print(f"{ano}: DOWNLOAD OK ({tamanho:,} bytes)")
+        try:
+            client.retrieve(
+                "reanalysis-era5-single-levels",
+                request,
+                arquivo
+            )
+            tamanho = os.path.getsize(arquivo)
+            print(f"{ano}-{mes_str}: OK ({tamanho:,} bytes)")
+            total_ok += 1
 
-    except Exception as erro:
-        print(f"{ano}: ERRO")
-        print(erro)
+        except Exception as erro:
+            print(f"{ano}-{mes_str}: ERROR")
+            print(erro)
+            total_err += 1
 
-        with open(
-            os.path.join(PASTA, "erros_download.txt"),
-            "a",
-            encoding="utf-8"
-        ) as f:
-            f.write(f"{ano}: {erro}\n")
+            with open(
+                os.path.join(PASTA, "erros_download.txt"),
+                "a",
+                encoding="utf-8"
+            ) as f:
+                f.write(f"{ano}-{mes_str}: {erro}\n")
 
-        # Remove eventual arquivo incompleto
-        if os.path.exists(arquivo):
-            os.remove(arquivo)
+            # Remove eventual arquivo incompleto
+            if os.path.exists(arquivo):
+                os.remove(arquivo)
 
-    time.sleep(2)
+        time.sleep(2)
 
 print()
 print("=" * 60)
-print("PROCESSO DE DOWNLOAD TERMINADO")
+print("DOWNLOAD PROCESS FINISHED")
 print("=" * 60)
-print(f"Arquivos salvos em: {PASTA}")
-print(f"Total esperado: 47 arquivos anuais (1979-2025)")
+print(f"Saved to: {PASTA}")
+print(f"OK: {total_ok} | Skipped: {total_skip} | Errors: {total_err}")
+print(f"Expected: {(ANO_FINAL - ANO_INICIAL + 1) * 12} monthly files (1979-2025)")
