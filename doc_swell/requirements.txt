@@ -1,0 +1,13 @@
+# Core data processing
+pandas>=2.0
+numpy>=1.24
+xarray>=2024.1
+scipy>=1.11
+netCDF4>=1.6
+
+# Validation and CLI
+pydantic>=2.0
+typer>=0.12
+
+# Optional (charts in scripts — not required to run the pipeline)
+# matplotlib>=3.7

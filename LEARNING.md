@@ -67,3 +67,20 @@ New terms and concepts encountered in this project.
 | **Controlled Component** | A form input (select, input, checkbox) where React state is the single source of truth. The input displays the state value, and `onChange` updates it. Similar to `v-model` in Vue: `<select value={x} onChange={e => setX(e.target.value)}>`. |
 | **Module-level cache** | A variable declared outside any component that persists across renders and component instances. Unlike `useState` (per-component), a module-level variable is shared by all components that import the same module. Used in `useCearaData` to avoid re-fetching CSVs. |
 | **Smooth scrolling** | CSS `scroll-behavior: smooth` makes anchor link navigation (`#section`) scroll smoothly instead of jumping. One line of CSS that improves UX significantly. |
+
+---
+
+## Python — Validation & CLI
+
+| Term | Explanation |
+|------|-------------|
+| **Pydantic** | A data-validation library that uses Python type hints to validate data at runtime. You declare a model with types and constraints (like `lat: float = Field(ge=-90, le=90)`), and Pydantic guarantees the data matches — or raises a clear error. It's the Python equivalent of Zod in TypeScript. |
+| **BaseModel** | The base class from Pydantic. You inherit from it to create a validated data model. Fields are declared as class attributes with type annotations. When you instantiate it (`GeoPoint(lat=5, lon=10)`), Pydantic validates all fields automatically. |
+| **Field()** | Pydantic function for adding constraints to a model field: `Field(ge=0, le=90)` means "greater or equal 0, less or equal 90". Similar to Laravel's validation rules like `'lat' => 'numeric|between:-90,90'`. |
+| **field_validator** | A Pydantic decorator for custom validation on a single field. Use it when built-in constraints aren't enough (e.g., validating that angle ranges are within 0–360). Similar to Zod's `.refine()` or Laravel's custom Rule objects. |
+| **model_validator** | A Pydantic decorator for validation that depends on multiple fields (e.g., `end_year >= start_year`). Runs after all individual fields are validated. No equivalent in Zod — you'd use `.refine()` on the whole schema. |
+| **Typer** | A CLI framework that builds command-line interfaces from Python function signatures. You write a function with typed parameters, and Typer auto-generates `--help` text, argument parsing, and validation. Think of it as Laravel's Artisan commands, but auto-generated from type hints. |
+| **typer.Option()** | Declares a CLI option (flag) with metadata: default value, short alias, help text, and constraints. `typer.Option(1, "--from-step", "-f", min=1, max=7)` creates `--from-step` / `-f` that only accepts 1–7. |
+| **Rich** | A Python library for styled terminal output: colored text, tables, progress bars, panels. Comes bundled with Typer. Replaces plain `print()` with formatted, readable output. `Console().print("[bold red]Error[/]")` prints bold red text. |
+| **Rich Table** | A Rich class that renders formatted ASCII/Unicode tables in the terminal. You add columns, then rows, and Rich handles alignment, borders, and styling. Similar to `php artisan` command output tables. |
+| **Lazy import** | Importing a module inside a function instead of at the top of the file. Used in the CLI so that heavy libraries (pandas, xarray) only load when their step actually runs — not when you just want `cli.py --help`. Tradeoff: slightly less readable, but much faster startup. |

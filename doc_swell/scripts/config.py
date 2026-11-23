@@ -182,3 +182,62 @@ WINDOW_DURATIONS = [3, 6, 12, 24]
 # ---------------------------------------------------------------------------
 ERDDAP_BASE_URL = "https://coastwatch.pfeg.noaa.gov/erddap"
 ERDDAP_DATASET = "NWW3_Global_Best"
+
+
+# ---------------------------------------------------------------------------
+# Validated configuration (Pydantic)
+#
+# This function wraps all the constants above into a single Pydantic model.
+# It does NOT replace the constants — existing scripts can keep using them
+# directly.  The CLI (cli.py) uses this to validate everything at startup.
+# ---------------------------------------------------------------------------
+def get_validated_config():
+    """
+    Build a fully validated PipelineConfig from the module-level constants.
+
+    Returns a PipelineConfig instance.  If any value is invalid (wrong type,
+    out of range, inconsistent), Pydantic raises a ValidationError with a
+    clear error message — before any data processing starts.
+
+    This is a function (not a module-level call) so that importing config.py
+    still works instantly, without triggering validation.  Validation only
+    runs when you explicitly call get_validated_config().
+    """
+    from models import (
+        DirectionRange,
+        GeoPoint,
+        MarchWindow,
+        PipelineConfig,
+        VariableMapping,
+    )
+
+    return PipelineConfig(
+        geo_point=GeoPoint(lat=LAT, lon=LON),
+        era5_year_start=ERA5_YEAR_START,
+        era5_year_end=ERA5_YEAR_END,
+        ww3_year_start=WW3_YEAR_START,
+        ww3_year_end=WW3_YEAR_END,
+        scenarios_era5=SCENARIOS_ERA5,
+        scenarios_ww3=SCENARIOS_WW3,
+        directions=[
+            DirectionRange(name=name, ranges=ranges)
+            for name, ranges in DIRECTIONS.items()
+        ],
+        default_direction=DEFAULT_DIRECTION,
+        march_windows=[
+            MarchWindow(name=key, start_day=val["start_day"], end_day=val["end_day"], label=val["label"])
+            for key, val in MARCH_WINDOWS.items()
+        ],
+        era5_vars=VariableMapping(**ERA5_VARS),
+        ww3_vars=VariableMapping(**WW3_VARS),
+        gap_tolerance_hours=GAP_TOLERANCE_HOURS,
+        height_bins=HEIGHT_BINS,
+        height_labels=HEIGHT_LABELS,
+        period_bins=PERIOD_BINS,
+        period_labels=PERIOD_LABELS,
+        window_durations=WINDOW_DURATIONS,
+        base_dir=BASE_DIR,
+        era5_nc_dir=ERA5_NC_DIR,
+        output_dir=OUTPUT_DIR,
+        data_dir=DATA_DIR,
+    )
