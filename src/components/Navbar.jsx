@@ -6,13 +6,13 @@ const Navbar = () => {
   const links = [
     { href: "#home", label: "Home" },
     { href: "#forecast", label: "Forecast" },
-    { href: "#probabilidade", label: "Probabilidade" },
-    { href: "#grafico", label: "Gráfico" },
-    { href: "#direccion", label: "Direção" },
-    { href: "#distribucion", label: "Estatísticas" },
+    { href: "#probabilidade", label: "Probability" },
+    { href: "#grafico", label: "Chart" },
+    { href: "#direccion", label: "Direction" },
+    { href: "#distribucion", label: "Statistics" },
     { href: "#timeline", label: "Timeline" },
-    { href: "#janelas", label: "Janelas" },
-    { href: "#eventos", label: "Eventos" },
+    { href: "#janelas", label: "Windows" },
+    { href: "#eventos", label: "Events" },
   ];
 
   return (
@@ -46,7 +46,7 @@ const Navbar = () => {
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
-              <span className="sr-only">Abrir menu</span>
+              <span className="sr-only">Open menu</span>
               {!isOpen ? (
                 <svg
                   className="block h-6 w-6"

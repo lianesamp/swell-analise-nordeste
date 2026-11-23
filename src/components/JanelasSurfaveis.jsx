@@ -45,7 +45,7 @@ const JanelasSurfaveis = () => {
     if (!active || !payload || !payload.length) return null;
     return (
       <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
-        <p className="font-semibold mb-1">Janela {label}</p>
+        <p className="font-semibold mb-1">Window {label}</p>
         {payload.map((p) => (
           <p key={p.dataKey} style={{ color: p.color }}>
             {p.name}: {p.value}%
@@ -58,11 +58,11 @@ const JanelasSurfaveis = () => {
   return (
     <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
       <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
-        Janelas Surfáveis — Cenário &quot;Good&quot;
+        Surfable Windows — Scenario &quot;Good&quot;
       </h2>
       <p className="text-sm text-slate-500 mb-4">
-        Probabilidade de encontrar ao menos uma janela contínua de swell N/NE
-        com duração {"\u2265"} X horas (Tp {"\u2265"} 9s, Hs {"\u2265"} 1.0m).
+        Probability of finding at least one continuous N/NE swell window
+        with duration {"\u2265"} X hours (Tp {"\u2265"} 9s, Hs {"\u2265"} 1.0m).
       </p>
 
       <ResponsiveContainer width="100%" height={320}>
@@ -74,7 +74,7 @@ const JanelasSurfaveis = () => {
           <XAxis
             dataKey="window"
             label={{
-              value: "Duração mínima",
+              value: "Minimum duration",
               position: "insideBottom",
               offset: -10,
             }}
@@ -83,7 +83,7 @@ const JanelasSurfaveis = () => {
             domain={[0, 100]}
             tickFormatter={(v) => `${v}%`}
             label={{
-              value: "Probabilidade (%)",
+              value: "Probability (%)",
               angle: -90,
               position: "insideLeft",
             }}
@@ -93,7 +93,7 @@ const JanelasSurfaveis = () => {
           <Line
             type="monotone"
             dataKey="week3"
-            name="15–21 março"
+            name="Mar 15–21"
             stroke="#0891b2"
             strokeWidth={2}
             dot={{ r: 5 }}
@@ -102,7 +102,7 @@ const JanelasSurfaveis = () => {
           <Line
             type="monotone"
             dataKey="week4"
-            name="22–28 março"
+            name="Mar 22–28"
             stroke="#f59e0b"
             strokeWidth={2}
             dot={{ r: 5 }}
@@ -112,7 +112,7 @@ const JanelasSurfaveis = () => {
       </ResponsiveContainer>
 
       <p className="text-xs text-slate-400 mt-2 text-center">
-        ERA5 1979–2025 — Cenário &quot;Good&quot; (Tp {"\u2265"} 9s, Hs{" "}
+        ERA5 1979–2025 — Scenario &quot;Good&quot; (Tp {"\u2265"} 9s, Hs{" "}
         {"\u2265"} 1.0m)
       </p>
     </section>

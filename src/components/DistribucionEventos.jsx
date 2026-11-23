@@ -24,19 +24,19 @@ const SCENARIO_ORDER = [
 const METRICS = [
   {
     key: "duration",
-    title: "Duração (horas)",
+    title: "Duration (hours)",
     unit: "h",
     fields: { mean: "duration_mean", median: "duration_median", p90: "duration_p90", max: "duration_max" },
   },
   {
     key: "height",
-    title: "Altura Hs (m)",
+    title: "Height Hs (m)",
     unit: "m",
     fields: { mean: "height_mean", median: "height_median", p90: "height_p90", max: "height_max" },
   },
   {
     key: "period",
-    title: "Período Tp (s)",
+    title: "Period Tp (s)",
     unit: "s",
     fields: { mean: "period_mean", median: "period_median", p90: "period_p90", max: "period_max" },
   },
@@ -94,11 +94,11 @@ const DistribucionEventos = () => {
   return (
     <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
       <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
-        Características dos Eventos
+        Event Characteristics
       </h2>
       <p className="text-sm text-slate-500 mb-4">
-        Quando há swell, quais são as características típicas?
-        Média, mediana, percentil 90 e máximo por cenário.
+        When there is swell, what are the typical characteristics?
+        Mean, median, 90th percentile, and maximum per scenario.
       </p>
 
       {/* Controls */}
@@ -113,7 +113,7 @@ const DistribucionEventos = () => {
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
-            15–21 março
+            Mar 15–21
           </button>
           <button
             onClick={() => setActiveWeek("week4")}
@@ -123,7 +123,7 @@ const DistribucionEventos = () => {
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
-            22–28 março
+            Mar 22–28
           </button>
         </div>
 
@@ -168,15 +168,15 @@ const DistribucionEventos = () => {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey="mean" name="Média" fill="#67e8f9" radius={[2, 2, 0, 0]} />
-          <Bar dataKey="median" name="Mediana" fill="#5eead4" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="mean" name="Mean" fill="#67e8f9" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="median" name="Median" fill="#5eead4" radius={[2, 2, 0, 0]} />
           <Bar dataKey="p90" name="P90" fill="#fbbf24" radius={[2, 2, 0, 0]} />
-          <Bar dataKey="max" name="Máximo" fill="#f97316" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="max" name="Maximum" fill="#f97316" radius={[2, 2, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
 
       <p className="text-xs text-slate-400 mt-2 text-center">
-        ERA5 1979–2025 — Estatísticas por cenário (excl. &quot;Exceptional&quot; = 0 eventos)
+        ERA5 1979–2025 — Statistics per scenario (excl. &quot;Exceptional&quot; = 0 events)
       </p>
     </section>
   );

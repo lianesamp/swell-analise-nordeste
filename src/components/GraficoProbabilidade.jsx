@@ -73,10 +73,10 @@ const GraficoProbabilidade = () => {
   return (
     <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
       <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
-        Probabilidade de Swell N/NE — Comparação por Semana
+        N/NE Swell Probability — Week Comparison
       </h2>
       <p className="text-sm text-slate-500 mb-4">
-        Barras de erro mostram o intervalo de confiança de Wilson (95%).
+        Error bars show the Wilson confidence interval (95%).
       </p>
 
       <ResponsiveContainer width="100%" height={400}>
@@ -95,7 +95,7 @@ const GraficoProbabilidade = () => {
           <YAxis
             domain={[0, 110]}
             label={{
-              value: "Probabilidade (%)",
+              value: "Probability (%)",
               angle: -90,
               position: "insideLeft",
               offset: 10,
@@ -106,7 +106,7 @@ const GraficoProbabilidade = () => {
           <ReferenceLine y={50} stroke="#94a3b8" strokeDasharray="3 3" />
           <Bar
             dataKey="week3"
-            name="15–21 março"
+            name="Mar 15–21"
             fill="#0891b2"
             radius={[4, 4, 0, 0]}
           >
@@ -119,7 +119,7 @@ const GraficoProbabilidade = () => {
           </Bar>
           <Bar
             dataKey="week4"
-            name="22–28 março"
+            name="Mar 22–28"
             fill="#f59e0b"
             radius={[4, 4, 0, 0]}
           >

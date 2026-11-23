@@ -25,7 +25,7 @@ const TimelineAnual = () => {
   if (loading || weekData.length === 0) return null;
 
   const weekLabel =
-    activeWeek === "week3" ? "15–21 março" : "22–28 março";
+    activeWeek === "week3" ? "Mar 15–21" : "Mar 22–28";
 
   const yearsWithEvent = weekData.filter((d) => d.had_event === true || d.had_event === "True").length;
 
@@ -38,14 +38,14 @@ const TimelineAnual = () => {
         <p className="font-semibold">{d.year}</p>
         {hadEvent ? (
           <>
-            <p>Eventos: {d.n_events}</p>
+            <p>Events: {d.n_events}</p>
             <p>Max Hs: {d.max_height}m</p>
             <p>Max Tp: {d.max_period}s</p>
-            <p>Max duração: {d.max_duration}h</p>
-            <p>Direção: {d.dominant_direction}</p>
+            <p>Max duration: {d.max_duration}h</p>
+            <p>Direction: {d.dominant_direction}</p>
           </>
         ) : (
-          <p className="text-slate-400">Sem evento detectado</p>
+          <p className="text-slate-400">No event detected</p>
         )}
       </div>
     );
@@ -54,12 +54,12 @@ const TimelineAnual = () => {
   return (
     <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
       <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
-        Linha do Tempo — Swell N/NE por Ano
+        Timeline — N/NE Swell by Year
       </h2>
       <p className="text-sm text-slate-500 mb-4">
-        Cenário &quot;good&quot; (Tp médio &ge; 9s, Hs &ge; 1.0m).
-        Barras coloridas = anos com evento. Barras cinzas = sem evento.
-        {" "}<strong>{yearsWithEvent}/{weekData.length}</strong> anos com evento.
+        Scenario &quot;good&quot; (mean Tp &ge; 9s, Hs &ge; 1.0m).
+        Colored bars = years with event. Gray bars = no event.
+        {" "}<strong>{yearsWithEvent}/{weekData.length}</strong> years with event.
       </p>
 
       <div className="flex gap-2 mb-4">
@@ -71,7 +71,7 @@ const TimelineAnual = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
-          15–21 março
+          Mar 15–21
         </button>
         <button
           onClick={() => setActiveWeek("week4")}
@@ -81,7 +81,7 @@ const TimelineAnual = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
-          22–28 março
+          Mar 22–28
         </button>
       </div>
 
@@ -96,7 +96,7 @@ const TimelineAnual = () => {
             tick={{ fontSize: 10 }}
             interval={4}
             label={{
-              value: "Ano",
+              value: "Year",
               position: "insideBottom",
               offset: -10,
             }}

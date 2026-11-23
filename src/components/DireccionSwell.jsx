@@ -65,11 +65,11 @@ const DireccionSwell = () => {
   return (
     <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
       <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
-        Direção do Swell — Norte vs Nordeste
+        Swell Direction — North vs Northeast
       </h2>
       <p className="text-sm text-slate-500 mb-4">
-        Percentual de horas com swell vindo de Norte (337.5°–22.5°) vs
-        Nordeste (22.5°–67.5°) por cenário.
+        Percentage of hours with swell from North (337.5°–22.5°) vs
+        Northeast (22.5°–67.5°) per scenario.
       </p>
 
       <div className="flex gap-2 mb-4">
@@ -81,7 +81,7 @@ const DireccionSwell = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
-          15–21 março
+          Mar 15–21
         </button>
         <button
           onClick={() => setActiveWeek("week4")}
@@ -91,7 +91,7 @@ const DireccionSwell = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
-          22–28 março
+          Mar 22–28
         </button>
       </div>
 
@@ -117,14 +117,14 @@ const DireccionSwell = () => {
           <Legend />
           <Bar
             dataKey="N"
-            name="Norte (N)"
+            name="North (N)"
             stackId="dir"
             fill="#0891b2"
             radius={[0, 0, 0, 0]}
           />
           <Bar
             dataKey="NE"
-            name="Nordeste (NE)"
+            name="Northeast (NE)"
             stackId="dir"
             fill="#14b8a6"
             radius={[0, 4, 4, 0]}
@@ -133,7 +133,7 @@ const DireccionSwell = () => {
       </ResponsiveContainer>
 
       <p className="text-xs text-slate-400 mt-2 text-center">
-        ERA5 1979–2025 — Cenários com eventos registrados (excl. &quot;Exceptional&quot; = 0 eventos)
+        ERA5 1979–2025 — Scenarios with recorded events (excl. &quot;Exceptional&quot; = 0 events)
       </p>
     </section>
   );

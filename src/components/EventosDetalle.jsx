@@ -80,18 +80,18 @@ const EventosDetalle = () => {
   return (
     <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
       <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
-        Eventos Individuais
+        Individual Events
       </h2>
       <p className="text-sm text-slate-500 mb-4">
-        Cada linha é um evento contínuo de swell N/NE detectado no período.
-        Clique nos cabeçalhos para ordenar.
+        Each row is a continuous N/NE swell event detected in the period.
+        Click headers to sort.
       </p>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-4">
         <div>
           <label className="block text-xs text-slate-500 mb-1" htmlFor="scenario-filter">
-            Cenário
+            Scenario
           </label>
           <select
             id="scenario-filter"
@@ -99,7 +99,7 @@ const EventosDetalle = () => {
             onChange={(e) => setScenarioFilter(e.target.value)}
             className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 outline-none transition-all duration-200"
           >
-            <option value="all">Todos</option>
+            <option value="all">All</option>
             {Object.entries(SCENARIO_LABELS).map(([key, label]) => (
               <option key={key} value={key}>{label}</option>
             ))}
@@ -108,7 +108,7 @@ const EventosDetalle = () => {
 
         <div>
           <label className="block text-xs text-slate-500 mb-1" htmlFor="week-filter">
-            Semana
+            Week
           </label>
           <select
             id="week-filter"
@@ -116,15 +116,15 @@ const EventosDetalle = () => {
             onChange={(e) => setWeekFilter(e.target.value)}
             className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 outline-none transition-all duration-200"
           >
-            <option value="all">Ambas</option>
-            <option value="week3">15–21 março</option>
-            <option value="week4">22–28 março</option>
+            <option value="all">Both</option>
+            <option value="week3">Mar 15–21</option>
+            <option value="week4">Mar 22–28</option>
           </select>
         </div>
 
         <div className="flex items-end">
           <span className="text-sm text-slate-600">
-            Mostrando <strong>{filtered.length}</strong> de {eventos.length} eventos
+            Showing <strong>{filtered.length}</strong> of {eventos.length} events
           </span>
         </div>
       </div>
@@ -135,13 +135,13 @@ const EventosDetalle = () => {
           <thead>
             <tr className="bg-slate-50/80 border-b border-slate-200">
               {[
-                { key: "year", label: "Ano" },
-                { key: "start_time", label: "Início" },
-                { key: "duration_hours", label: "Duração (h)" },
+                { key: "year", label: "Year" },
+                { key: "start_time", label: "Start" },
+                { key: "duration_hours", label: "Duration (h)" },
                 { key: "max_height", label: "Hs max (m)" },
                 { key: "max_period", label: "Tp max (s)" },
                 { key: "dominant_direction", label: "Dir" },
-                { key: "scenario", label: "Cenário" },
+                { key: "scenario", label: "Scenario" },
               ].map((col) => (
                 <th
                   key={col.key}
@@ -157,7 +157,7 @@ const EventosDetalle = () => {
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={7} className="p-4 text-center text-slate-400">
-                  Nenhum evento encontrado com esses filtros.
+                  No events found with these filters.
                 </td>
               </tr>
             ) : (
@@ -185,7 +185,7 @@ const EventosDetalle = () => {
       </div>
 
       <p className="text-xs text-slate-400 mt-3 text-center">
-        ERA5 1979–2025 — Março semanas 3 e 4
+        ERA5 1979–2025 — March weeks 3 and 4
       </p>
     </section>
   );
