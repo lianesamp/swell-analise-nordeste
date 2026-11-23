@@ -27,9 +27,17 @@ OFFSHORE_LON = -38.5
 # swell — what matters most is ENERGY, not period alone.
 #
 # Primary metric: wave energy E = (1/16) × ρ × g × Hs²
-#   - Above ~400 J/m² → waves start breaking at Iracema
-#   - This corresponds to roughly Hs >= 0.8m
-#   (Reference: SurfGuru energy chart for Praia de Iracema)
+#
+# MODEL CALIBRATION NOTE:
+# SurfGuru runs WW3 with coastal-refined grids (1/16°, ~7km) that
+# account for refraction/shoaling near the coast.  Open-Meteo uses
+# DWD GWAM at 0.25° (28km) — a global offshore model that gives
+# ~2x higher swell heights because it doesn't model coastal attenuation.
+#
+# Thresholds are scaled for Open-Meteo's offshore values:
+#   SurfGuru 400 J → Open-Meteo ~800 J
+#   SurfGuru 500 J → Open-Meteo ~1000 J
+#   SurfGuru 800 J → Open-Meteo ~1600 J
 #
 # Direction: N through E — Iracema faces north but accepts ENE
 # trade-wind swell that wraps around the headland.
@@ -42,20 +50,19 @@ SWELL_PERIOD_MIN = 4.0    # seconds — very low bar; energy is what matters
 TIDE_MAX_HEIGHT = 1.5     # meters above chart datum — above this, too deep for waves to break
 TIDE_ROCKS_WARNING = 0.6  # below this, rocks are exposed — experienced surfers only
 
-# Wave energy threshold (J/m²) — the key surfability metric for Iracema
+# Wave energy threshold (J/m²) — scaled for Open-Meteo's offshore model
 # E = (1/16) × 1025 × 9.81 × Hs²  (seawater density × gravity × height²)
-ENERGY_SURFABLE = 400     # above this, waves break at Iracema
+ENERGY_SURFABLE = 800     # ~400 J on SurfGuru scale × 2 for offshore model
 
 # Physical constants for energy calculation
 RHO_SEAWATER = 1025       # kg/m³
 G = 9.81                  # m/s²
 
-# Rating thresholds — based on energy (J/m²) and tide
-# These combine the SurfGuru energy reference with local tide knowledge
+# Rating thresholds — scaled for Open-Meteo (SurfGuru × 2)
 RATING_THRESHOLDS = {
-    "great": {"energy_min": 800, "period_min": 8.0},
-    "good":  {"energy_min": 500, "period_min": 5.0},
-    "fair":  {"energy_min": 400, "period_min": 4.0},
+    "great": {"energy_min": 1600, "period_min": 8.0},
+    "good":  {"energy_min": 1000, "period_min": 5.0},
+    "fair":  {"energy_min": 800,  "period_min": 4.0},
 }
 
 # ---------------------------------------------------------------------------
