@@ -1,5 +1,7 @@
 import Navbar from './components/Navbar';
 import BannerCeara from './components/BannerCeara';
+import ForecastIracema from './components/ForecastIracema';
+import SwellTideChart from './components/SwellTideChart';
 import ProbabilidadeCenarios from './components/ProbabilidadeCenarios';
 import GraficoProbabilidade from './components/GraficoProbabilidade';
 import DireccionSwell from './components/DireccionSwell';
@@ -15,6 +17,10 @@ function App() {
 
       <div id="home">
         <BannerCeara />
+      </div>
+      <div id="forecast">
+        <ForecastIracema />
+        <SwellTideChart />
       </div>
       <div id="probabilidade">
         <ProbabilidadeCenarios />

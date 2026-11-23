@@ -101,3 +101,16 @@ New terms and concepts encountered in this project.
 | **Wave energy (J/m2)** | The energy density of a wave, calculated as `E = (1/16) x rho x g x Hs^2`. For Praia de Iracema, ~400 J/m2 is the threshold where waves start breaking on the sandbars. Energy depends on height SQUARED — doubling the height gives 4x the energy. This is the primary surfability metric for Iracema, more reliable than period alone. |
 | **Tide phase** | The current stage of the tidal cycle: "draining" (secando, tide falling), "low" (seca, near minimum), "filling" (enchendo, tide rising), "high" (preamar, near maximum). The phase matters for surfing because it tells you if conditions are improving (draining) or deteriorating (filling). |
 | **Tide window for Iracema** | Iracema is surfable roughly between 1.5m (falling) and 1.5m (rising) tide heights. Below 0.6m, rocks are exposed and it's risky. The ideal is mid-to-low tide during the draining phase — sandbars are exposed and waves break cleanly. High tide (> 1.5m) drowns the sandbars completely. |
+
+---
+
+## Frontend — Forecast Integration
+
+| Term | Explanation |
+|------|-------------|
+| **fetch() API** | The browser's built-in HTTP client — replaces Python's `urllib.request` for making API calls from the frontend. Returns a Promise, works with async/await. No library needed (unlike axios or requests). `const data = await fetch(url).then(r => r.json())`. |
+| **URLSearchParams** | A browser API for building query strings safely. `new URLSearchParams({ lat: -3.5 }).toString()` → `"lat=-3.5"`. Handles encoding special characters automatically. Similar to Laravel's `http_build_query()`. |
+| **Hook composition** | Using multiple independent custom hooks in the same app. `useCearaData()` loads historical CSVs, `useForecastData()` loads the live forecast — each manages its own cache and state. Components pick the hook they need. Like having separate Service classes in Laravel that don't depend on each other. |
+| **Dual Y-axis chart** | A Recharts pattern where two lines share the same X axis but have different Y axes (left and right). Used here: swell height (left, meters) and tide height (right, meters). Each `<Line>` specifies `yAxisId` to bind to its axis. |
+| **ReferenceLine** | A Recharts component that draws a horizontal or vertical line at a fixed value. We use it to show the energy threshold (~0.80m swell = 400 J/m²) as a dashed line. Visually separates "surfable" from "flat" on the chart. |
+| **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that blocks requests to different domains unless the server explicitly allows it. Open-Meteo's API sets CORS headers, so we can call it directly from the browser. Many APIs don't allow this — you'd need a backend proxy. |
