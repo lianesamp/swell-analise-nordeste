@@ -84,3 +84,20 @@ New terms and concepts encountered in this project.
 | **Rich** | A Python library for styled terminal output: colored text, tables, progress bars, panels. Comes bundled with Typer. Replaces plain `print()` with formatted, readable output. `Console().print("[bold red]Error[/]")` prints bold red text. |
 | **Rich Table** | A Rich class that renders formatted ASCII/Unicode tables in the terminal. You add columns, then rows, and Rich handles alignment, borders, and styling. Similar to `php artisan` command output tables. |
 | **Lazy import** | Importing a module inside a function instead of at the top of the file. Used in the CLI so that heavy libraries (pandas, xarray) only load when their step actually runs — not when you just want `cli.py --help`. Tradeoff: slightly less readable, but much faster startup. |
+
+---
+
+## Forecast Module — APIs & Domain Logic
+
+| Term | Explanation |
+|------|-------------|
+| **Open-Meteo** | A free weather/marine API that requires no API key for non-commercial use. Uses the DWD (German Weather Service) global wave model at 28km resolution. You query it via URL parameters and get JSON back — similar to ERDDAP but for forecasts instead of historical data. |
+| **Chart datum** | The reference level for tide heights, set by the Marinha do Brasil (Brazilian Navy). Roughly the lowest astronomical tide. So a tide height of 0.3m means 30cm above the lowest possible level, and 2.8m is a high spring tide. All tide predictions are relative to this. |
+| **Tide interpolation** | Estimating the tide height at an arbitrary time between two known high/low events. We use linear interpolation (a straight line between points). Real tides follow a sinusoidal curve, so this is an approximation — but good enough for "is it too high to surf?" |
+| **Domain rules** | Business logic specific to a problem domain — in our case, the conditions that make Praia de Iracema surfable. This is the part of the code that encodes expert knowledge (direction, period, tide) rather than generic data processing. In a Laravel app, this would live in a Service or Action class. |
+| **Circular mean** | The correct way to average angular values like wave direction. You can't just average 350° and 10° as (350+10)/2 = 180° — that's wrong. Instead, convert to sine/cosine components, average those, then convert back. Result: ~0° (north), which is correct. |
+| **urllib.request** | Python's built-in HTTP client (stdlib). Used instead of the popular `requests` library to avoid adding a dependency for a single API call. `urllib.request.urlopen(url)` returns a response you can `.read()`. More verbose than `requests.get()`, but zero dependencies. |
+| **Rich Panel** | A Rich component that draws a bordered box around text in the terminal. Used in the forecast CLI to highlight important messages like "flat week" or errors. Similar to Bootstrap's card component but for the terminal. |
+| **Wave energy (J/m2)** | The energy density of a wave, calculated as `E = (1/16) x rho x g x Hs^2`. For Praia de Iracema, ~400 J/m2 is the threshold where waves start breaking on the sandbars. Energy depends on height SQUARED — doubling the height gives 4x the energy. This is the primary surfability metric for Iracema, more reliable than period alone. |
+| **Tide phase** | The current stage of the tidal cycle: "draining" (secando, tide falling), "low" (seca, near minimum), "filling" (enchendo, tide rising), "high" (preamar, near maximum). The phase matters for surfing because it tells you if conditions are improving (draining) or deteriorating (filling). |
+| **Tide window for Iracema** | Iracema is surfable roughly between 1.5m (falling) and 1.5m (rising) tide heights. Below 0.6m, rocks are exposed and it's risky. The ideal is mid-to-low tide during the draining phase — sandbars are exposed and waves break cleanly. High tide (> 1.5m) drowns the sandbars completely. |
