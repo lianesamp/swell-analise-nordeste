@@ -1,12 +1,18 @@
 """
-Fetch 7-day swell forecast from the Open-Meteo Marine API.
+Fetch 7-day wave forecast from the Open-Meteo Marine API.
 
 Open-Meteo is a free weather API that requires no API key for
 non-commercial use.  It uses the DWD (German Weather Service) global
 wave model at 28km resolution, updated twice daily.
 
-This is similar to how doc_swell/scripts/03_baixar_ww3.py downloads
-from NOAA ERDDAP, but instead of historical data we get a live forecast.
+We fetch TOTAL wave_height (swell + wind waves) because that's what
+determines surf energy at Iracema.  The trade winds add significant
+chop that contributes to breaking.  SurfGuru's "Total Energy" chart
+(our calibration reference) also uses the combined total.
+
+We use SWELL direction for the direction filter — it's the swell
+from N/NE that reaches Iracema's north-facing beach.  Wind waves
+come from ESE (trade winds) and don't indicate surfability.
 
 Docs: https://open-meteo.com/en/docs/marine-weather-api
 """
@@ -51,7 +57,7 @@ def fetch_swell(
     params = (
         f"latitude={lat}"
         f"&longitude={lon}"
-        f"&hourly=swell_wave_height,swell_wave_direction,swell_wave_period"
+        f"&hourly=wave_height,wave_period,swell_wave_direction"
         f"&forecast_days={forecast_days}"
         f"&timezone=America/Fortaleza"
     )
@@ -71,9 +77,9 @@ def fetch_swell(
     # Open-Meteo returns parallel arrays: one for times, one per variable
     hourly = data.get("hourly", {})
     times = hourly.get("time", [])
-    heights = hourly.get("swell_wave_height", [])
+    heights = hourly.get("wave_height", [])
     directions = hourly.get("swell_wave_direction", [])
-    periods = hourly.get("swell_wave_period", [])
+    periods = hourly.get("wave_period", [])
 
     if not times:
         raise ValueError("Open-Meteo returned empty forecast data")

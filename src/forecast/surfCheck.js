@@ -27,6 +27,17 @@ import { interpolateTideHeight, getTidePhase } from "./tides.js";
  * it directly from the browser with fetch(). This replaces the
  * Python version that used urllib.
  *
+ * We fetch TOTAL wave_height (swell + wind waves combined) because
+ * that's what determines surf energy at Iracema — the trade winds
+ * add significant chop that contributes to wave breaking on the
+ * sandbars. SurfGuru's "Total Energy" chart (which we calibrate
+ * against) also uses the combined total.
+ *
+ * However, we use SWELL direction for the direction filter, because
+ * it's the swell from N/NE that reaches Iracema's north-facing
+ * beach. Wind waves come from ESE (trade winds) and don't indicate
+ * whether the spot is working.
+ *
  * The API returns parallel arrays (one for time, one per variable),
  * which we zip into objects — same pattern as the Python version.
  *
@@ -36,7 +47,7 @@ export async function fetchSwell() {
   const params = new URLSearchParams({
     latitude: OFFSHORE_LAT,
     longitude: OFFSHORE_LON,
-    hourly: "swell_wave_height,swell_wave_direction,swell_wave_period",
+    hourly: "wave_height,wave_period,swell_wave_direction",
     forecast_days: FORECAST_DAYS,
     timezone: "America/Fortaleza",
   });
@@ -49,9 +60,9 @@ export async function fetchSwell() {
   const data = await response.json();
   const hourly = data.hourly || {};
   const times = hourly.time || [];
-  const heights = hourly.swell_wave_height || [];
+  const heights = hourly.wave_height || [];
   const directions = hourly.swell_wave_direction || [];
-  const periods = hourly.swell_wave_period || [];
+  const periods = hourly.wave_period || [];
 
   if (!times.length) {
     throw new Error("Open-Meteo returned empty forecast data");
