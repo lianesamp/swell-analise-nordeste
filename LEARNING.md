@@ -114,3 +114,20 @@ New terms and concepts encountered in this project.
 | **Dual Y-axis chart** | A Recharts pattern where two lines share the same X axis but have different Y axes (left and right). Used here: swell height (left, meters) and tide height (right, meters). Each `<Line>` specifies `yAxisId` to bind to its axis. |
 | **ReferenceLine** | A Recharts component that draws a horizontal or vertical line at a fixed value. We use it to show the energy threshold (~0.80m swell = 400 J/m²) as a dashed line. Visually separates "surfable" from "flat" on the chart. |
 | **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that blocks requests to different domains unless the server explicitly allows it. Open-Meteo's API sets CORS headers, so we can call it directly from the browser. Many APIs don't allow this — you'd need a backend proxy. |
+
+---
+
+## Wave Transformation — Physical Oceanography
+
+| Term | Explanation |
+|------|-------------|
+| **Shoaling** | As waves travel from deep to shallow water, they slow down. Because energy flux must be conserved (what goes in must come out), the wave height changes. The shoaling coefficient Ks = sqrt(cg_offshore / cg_local) quantifies this. In most cases waves get taller as they approach shore — but not always (there's a brief dip in intermediate depths). |
+| **Refraction** | Waves bend as they approach shore because the part of the wave front in shallower water moves slower. Like light through a lens, this focuses or spreads energy. Governed by Snell's law: sin(angle)/c = constant. For Iracema (facing north, receiving NE swell), refraction turns the wave more shore-normal and slightly reduces height. |
+| **Dispersion relation** | The equation that links wave period, wavelength, and water depth: `omega^2 = g × k × tanh(k × h)`. Can't be solved algebraically for wave number k — requires iterative numerical methods (Newton-Raphson). This is the fundamental equation of linear wave theory. |
+| **Wave number (k)** | k = 2π / wavelength. Tells you how many wave cycles fit per meter. As waves enter shallow water, k increases (wavelength shrinks). Solving the dispersion relation for k at each depth is the first step of wave transformation. |
+| **Group velocity (cg)** | The speed at which wave ENERGY propagates — different from phase velocity (speed of individual crests). In deep water cg = c/2 (energy travels at half the crest speed). In shallow water cg approaches c. Formula: cg = (c/2) × (1 + 2kh / sinh(2kh)). This is the key quantity for shoaling calculations. |
+| **Breaking index** | Waves break when height exceeds ~78% of the water depth (H > 0.78 × h). This is the depth-limited breaking criterion from McCowan (1894). In 1m of water, the maximum wave height is ~0.78m. Beyond this, the wave breaks and energy is lost. |
+| **Newton-Raphson method** | An iterative algorithm for finding roots of equations (f(x) = 0). Start with a guess, then improve: x_next = x - f(x) / f'(x). Used here to solve the dispersion relation for wave number k. Converges in 5-10 iterations. Standard numerical tool in physics and engineering. |
+| **GEBCO (General Bathymetric Chart of the Oceans)** | A global seafloor depth dataset at 15 arc-second (~450m) resolution. We use it to build a depth profile (transect) from the offshore point to Iracema. Free data, accessed via the Open Topo Data API. The seabed doesn't change, so we fetch it once and cache as a static JSON. |
+| **Bathymetry transect** | A 1D depth profile from point A to point B — like slicing a cross-section through the ocean floor. Our transect goes from -25m (offshore) to -5m (nearshore) over ~24km. The wave transformation model "walks" along this transect, applying shoaling and refraction at each depth step. |
+| **Phase velocity (c)** | The speed of individual wave crests. c = omega / k = wavelength / period. In deep water depends only on period (longer period = faster). In shallow water depends only on depth: c = sqrt(g × h). The transition between these regimes is "intermediate depth." |

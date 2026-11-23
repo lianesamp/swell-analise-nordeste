@@ -3,10 +3,11 @@ Surf check orchestration — combines swell, tide and rules.
 
 This is the main "brain" of the forecast module.  It:
 1. Fetches the 7-day swell forecast from Open-Meteo
-2. Loads the tide table for the period
-3. For each hour, evaluates surfability using rules.py
-4. Groups consecutive surfable hours into "windows"
-5. Returns a list of SurfWindow objects ready for display
+2. Transforms offshore swell → nearshore using wave physics
+3. Loads the tide table for the period
+4. For each hour, evaluates surfability using rules.py
+5. Groups consecutive surfable hours into "windows"
+6. Returns a list of SurfWindow objects ready for display
 
 This is similar to how doc_swell/scripts/04_detectar_eventos.py
 groups consecutive hours into events, but instead of historical
@@ -17,6 +18,7 @@ from datetime import datetime, timedelta
 
 from models import SwellHour, SurfWindow, TideEvent
 from fetch_swell import fetch_swell
+from wave_transform import transform_waves
 from tide_mucuripe import get_tides, interpolate_tide_height, get_tide_phase
 from rules import is_surfable, rate_conditions, wave_energy, get_warnings
 
@@ -135,18 +137,21 @@ def run_surf_check() -> tuple[list[SwellHour], list[TideEvent], list[SurfWindow]
     windows : list[SurfWindow]
         Surfable windows found, sorted by time.
     """
-    # 1. Fetch swell forecast
-    swell_data = fetch_swell()
+    # 1. Fetch offshore swell forecast
+    offshore_data = fetch_swell()
 
-    if not swell_data:
+    if not offshore_data:
         return [], [], []
 
-    # 2. Get tides for the forecast period
+    # 2. Transform offshore → nearshore using wave physics
+    swell_data = transform_waves(offshore_data)
+
+    # 3. Get tides for the forecast period
     start = swell_data[0].time
     end = swell_data[-1].time
     tide_data = get_tides(start, end)
 
-    # 3. Rate each hour
+    # 4. Rate each hour
     surfable_hours: list[dict] = []
     for swell in swell_data:
         tide_h = interpolate_tide_height(swell.time, tide_data)
@@ -164,7 +169,7 @@ def run_surf_check() -> tuple[list[SwellHour], list[TideEvent], list[SurfWindow]
                 "rating": rating,
             })
 
-    # 4. Group into windows
+    # 5. Group into windows
     windows = _group_into_windows(surfable_hours)
 
     return swell_data, tide_data, windows

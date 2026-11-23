@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { fetchSwell, runSurfCheck } from "../forecast/surfCheck.js";
 import { loadTides } from "../forecast/tides.js";
+import { loadBathymetry, transformWaves } from "../forecast/waveTransform.js";
 
 /**
  * Custom hook that fetches the 7-day surf forecast for Praia de Iracema.
@@ -10,22 +11,23 @@ import { loadTides } from "../forecast/tides.js";
  * - Shared promise so multiple components don't duplicate requests
  * - Cleanup ref to prevent state updates on unmounted components
  *
- * Unlike useCearaData (which loads static CSVs), this hook calls
- * the Open-Meteo Marine API for live swell data. The tide data is
- * still a static JSON file.
+ * Data pipeline:
+ * 1. Fetch offshore swell from Open-Meteo API
+ * 2. Load bathymetry transect (static JSON, GEBCO data)
+ * 3. Load tide table (static JSON, Marinha do Brasil)
+ * 4. Transform offshore → nearshore using shoaling + refraction physics
+ * 5. Run surf rules on the nearshore (transformed) data
+ *
+ * Both offshore and nearshore swell data are returned so the chart
+ * can display both lines for comparison.
  *
  * Usage:
- *   const { swellData, tideData, surfWindows, loading, error } = useForecastData();
- *
- * New concept — "hook composition":
- *   Each hook manages its own data source independently. Components
- *   can use one or both hooks without them interfering. This is like
- *   having separate Service classes in Laravel that don't depend on
- *   each other.
+ *   const { offshoreData, swellData, tideData, surfWindows, loading, error } = useForecastData();
  */
 
 // Module-level cache — same approach as useCearaData
 const cache = {
+  offshoreData: null,
   swellData: null,
   tideData: null,
   surfWindows: null,
@@ -34,25 +36,31 @@ const cache = {
 };
 
 async function loadAll() {
-  // Fetch swell and tides in parallel (independent requests)
-  const [swellData, tideData] = await Promise.all([
+  // Fetch swell, tides, and bathymetry in parallel (3 independent requests)
+  const [offshoreData, tideData, bathymetry] = await Promise.all([
     fetchSwell(),
     loadTides(),
+    loadBathymetry(),
   ]);
 
-  // Run the surf check rules (pure computation, no I/O)
+  // Transform offshore → nearshore using wave physics (pure computation)
+  const swellData = transformWaves(offshoreData, bathymetry);
+
+  // Run the surf check rules on the nearshore data
   const surfWindows = runSurfCheck(swellData, tideData);
 
+  cache.offshoreData = offshoreData;
   cache.swellData = swellData;
   cache.tideData = tideData;
   cache.surfWindows = surfWindows;
   cache.loaded = true;
 
-  return { swellData, tideData, surfWindows };
+  return { offshoreData, swellData, tideData, surfWindows };
 }
 
 export function useForecastData() {
   const [data, setData] = useState({
+    offshoreData: cache.offshoreData ?? [],
     swellData: cache.swellData ?? [],
     tideData: cache.tideData ?? [],
     surfWindows: cache.surfWindows ?? [],
@@ -66,6 +74,7 @@ export function useForecastData() {
 
     if (cache.loaded) {
       setData({
+        offshoreData: cache.offshoreData,
         swellData: cache.swellData,
         tideData: cache.tideData,
         surfWindows: cache.surfWindows,
