@@ -51,7 +51,7 @@ const DireccionSwell = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload || !payload.length) return null;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded shadow text-sm">
+      <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
         <p className="font-semibold mb-1">{label}</p>
         {payload.map((p) => (
           <p key={p.dataKey} style={{ color: p.color }}>
@@ -63,11 +63,11 @@ const DireccionSwell = () => {
   };
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2 text-gray-900">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Direção do Swell — Norte vs Nordeste
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Percentual de horas com swell vindo de Norte (337.5°–22.5°) vs
         Nordeste (22.5°–67.5°) por cenário.
       </p>
@@ -75,20 +75,20 @@ const DireccionSwell = () => {
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setActiveWeek("week3")}
-          className={`px-4 py-2 rounded text-sm font-medium transition ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
             activeWeek === "week3"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-cyan-600 text-white shadow-sm"
+              : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
           15–21 março
         </button>
         <button
           onClick={() => setActiveWeek("week4")}
-          className={`px-4 py-2 rounded text-sm font-medium transition ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
             activeWeek === "week4"
-              ? "bg-orange-500 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-amber-500 text-white shadow-sm"
+              : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
           22–28 março
@@ -101,7 +101,7 @@ const DireccionSwell = () => {
           layout="vertical"
           margin={{ top: 10, right: 30, left: 100, bottom: 10 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
             type="number"
             domain={[0, 100]}
@@ -119,7 +119,7 @@ const DireccionSwell = () => {
             dataKey="N"
             name="Norte (N)"
             stackId="dir"
-            fill="#2563eb"
+            fill="#0891b2"
             radius={[0, 0, 0, 0]}
           />
           <Bar
@@ -132,7 +132,7 @@ const DireccionSwell = () => {
         </BarChart>
       </ResponsiveContainer>
 
-      <p className="text-xs text-gray-400 mt-2 text-center">
+      <p className="text-xs text-slate-400 mt-2 text-center">
         ERA5 1979–2025 — Cenários com eventos registrados (excl. &quot;Exceptional&quot; = 0 eventos)
       </p>
     </section>

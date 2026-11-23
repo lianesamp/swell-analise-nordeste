@@ -4,17 +4,17 @@ import { directionLabel } from "../forecast/surfCheck.js";
 import { SPOT_NAME } from "../forecast/config.js";
 
 /**
- * Rating badge colors — same approach as SCENARIO_COLORS in EventosDetalle.
+ * Rating badge colors — ocean theme palette.
  *
  * Tailwind utility classes for each rating level:
- * - great = green (go!)
- * - good = blue (worth it)
- * - fair = yellow (maybe)
+ * - great = teal (go!)
+ * - good = cyan (worth it)
+ * - fair = amber (maybe)
  */
 const RATING_STYLES = {
-  great: "bg-green-100 text-green-800 border-green-300",
-  good:  "bg-blue-100 text-blue-800 border-blue-300",
-  fair:  "bg-yellow-100 text-yellow-800 border-yellow-300",
+  great: "bg-teal-100 text-teal-800 border-teal-300",
+  good:  "bg-cyan-100 text-cyan-800 border-cyan-300",
+  fair:  "bg-amber-100 text-amber-800 border-amber-300",
 };
 
 /**
@@ -57,19 +57,19 @@ const ForecastIracema = () => {
 
   if (loading) {
     return (
-      <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-        <h2 className="text-xl font-bold mb-2">
+      <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+        <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
           Surf Forecast — {SPOT_NAME}
         </h2>
-        <p className="text-sm text-gray-500">Loading forecast data...</p>
+        <p className="text-sm text-slate-500">Loading forecast data...</p>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-        <h2 className="text-xl font-bold mb-2">
+      <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+        <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
           Surf Forecast — {SPOT_NAME}
         </h2>
         <p className="text-sm text-red-600">
@@ -90,23 +90,23 @@ const ForecastIracema = () => {
     : null;
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Surf Forecast — {SPOT_NAME}
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         7-day forecast based on Open-Meteo swell data + Mucuripe tide table.
         Energy threshold: 400 J/m2. Tide window: 0.0m–1.5m.
       </p>
 
       {/* Summary banner */}
       {hasWindows ? (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <p className="font-semibold text-blue-900">
+        <div className="bg-cyan-50/60 border border-cyan-200/60 rounded-xl p-4 mb-6">
+          <p className="font-semibold text-cyan-900">
             {surfWindows.length} surf window{surfWindows.length > 1 ? "s" : ""} this week
           </p>
           {bestWindow && (
-            <p className="text-sm text-blue-700 mt-1">
+            <p className="text-sm text-cyan-700 mt-1">
               Best session: {formatDate(bestWindow.start)}{" "}
               {formatTime(bestWindow.start)}–{formatTime(bestWindow.end)}{" "}
               <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold border ${RATING_STYLES[bestWindow.rating]}`}>
@@ -117,11 +117,11 @@ const ForecastIracema = () => {
           )}
         </div>
       ) : (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-          <p className="font-semibold text-gray-600">
+        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
+          <p className="font-semibold text-slate-600">
             Flat week ahead — no surfable windows detected
           </p>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Energy stays below 400 J/m2 or tide/direction are unfavorable.
           </p>
         </div>
@@ -132,7 +132,7 @@ const ForecastIracema = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200 text-left text-gray-600">
+              <tr className="border-b border-slate-200 text-left text-slate-500 uppercase text-xs tracking-wider">
                 <th className="py-2 pr-3">Date</th>
                 <th className="py-2 pr-3">Time</th>
                 <th className="py-2 pr-3">Rating</th>
@@ -148,12 +148,12 @@ const ForecastIracema = () => {
               {surfWindows.map((win, i) => (
                 <tr
                   key={i}
-                  className="border-b border-gray-100 hover:bg-gray-50"
+                  className="border-b border-slate-100 hover:bg-cyan-50/40 transition-colors duration-150"
                 >
-                  <td className="py-2 pr-3 font-medium">
+                  <td className="py-2 pr-3 font-medium text-slate-800">
                     {formatDate(win.start)}
                   </td>
-                  <td className="py-2 pr-3">
+                  <td className="py-2 pr-3 text-slate-600">
                     {formatTime(win.start)}–{formatTime(win.end)}
                   </td>
                   <td className="py-2 pr-3">
@@ -163,18 +163,18 @@ const ForecastIracema = () => {
                       {win.rating.toUpperCase()}
                     </span>
                   </td>
-                  <td className="py-2 pr-3">{win.energyAvg} J/m2</td>
-                  <td className="py-2 pr-3">
+                  <td className="py-2 pr-3 text-slate-600">{win.energyAvg} J/m2</td>
+                  <td className="py-2 pr-3 text-slate-600">
                     {win.swellHeightAvg}m @ {win.swellPeriodAvg}s
                   </td>
-                  <td className="py-2 pr-3">
+                  <td className="py-2 pr-3 text-slate-600">
                     {directionLabel(win.swellDirAvg)} ({win.swellDirAvg}°)
                   </td>
-                  <td className="py-2 pr-3">{win.tideHeightAtPeak}m</td>
-                  <td className="py-2 pr-3 text-xs text-gray-500">
+                  <td className="py-2 pr-3 text-slate-600">{win.tideHeightAtPeak}m</td>
+                  <td className="py-2 pr-3 text-xs text-slate-500">
                     {win.tidePhaseSummary}
                   </td>
-                  <td className="py-2 text-xs text-red-600">
+                  <td className="py-2 text-xs text-amber-600">
                     {win.warnings.join("; ")}
                   </td>
                 </tr>

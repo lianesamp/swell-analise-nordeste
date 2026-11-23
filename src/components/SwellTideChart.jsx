@@ -43,20 +43,20 @@ const ChartTooltip = ({ active, payload }) => {
 
   const data = payload[0].payload;
   return (
-    <div className="bg-white border border-gray-200 rounded shadow-sm p-3 text-sm">
+    <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
       <p className="font-medium">{fullDateTime(data.date)}</p>
-      <p className="text-gray-400">
+      <p className="text-slate-400">
         Offshore: {data.offshoreHeight.toFixed(2)}m ({Math.round(data.offshoreEnergy)} J/m2)
       </p>
-      <p className="text-blue-600">
+      <p className="text-cyan-400">
         Nearshore: {data.swellHeight.toFixed(2)}m ({Math.round(data.energy)} J/m2)
       </p>
-      <p className="text-gray-500 text-xs">
+      <p className="text-slate-500 text-xs">
         Reduction: {data.offshoreHeight > 0
           ? Math.round((1 - data.swellHeight / data.offshoreHeight) * 100)
           : 0}%
       </p>
-      <p className="text-cyan-600">
+      <p className="text-teal-400">
         Tide: {data.tideHeight.toFixed(2)}m
       </p>
     </div>
@@ -108,14 +108,14 @@ const SwellTideChart = () => {
   if (loading || error || !chartData.length) return null;
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Swell &amp; Tide — 7 Days
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Gray dashed: offshore swell (Open-Meteo raw).
-        Blue: nearshore swell (after shoaling + refraction).
-        Cyan: tide.
+        Cyan: nearshore swell (after shoaling + refraction).
+        Teal: tide.
         Orange dashed: {ENERGY_SURFABLE} J/m2 threshold (~{ENERGY_THRESHOLD_HEIGHT.toFixed(2)}m).
       </p>
 
@@ -124,7 +124,7 @@ const SwellTideChart = () => {
           data={chartData}
           margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
 
           <XAxis
             dataKey="timeLabel"
@@ -142,7 +142,7 @@ const SwellTideChart = () => {
               value: "Swell (m)",
               angle: -90,
               position: "insideLeft",
-              style: { fontSize: 11, fill: "#6b7280" },
+              style: { fontSize: 11, fill: "#64748b" },
             }}
           />
 
@@ -156,7 +156,7 @@ const SwellTideChart = () => {
               value: "Tide (m)",
               angle: 90,
               position: "insideRight",
-              style: { fontSize: 11, fill: "#6b7280" },
+              style: { fontSize: 11, fill: "#64748b" },
             }}
           />
 
@@ -181,19 +181,19 @@ const SwellTideChart = () => {
             yAxisId="swell"
             type="monotone"
             dataKey="offshoreHeight"
-            stroke="#9ca3af"
+            stroke="#94a3b8"
             strokeWidth={1.5}
             strokeDasharray="4 3"
             dot={false}
             name="Offshore (m)"
           />
 
-          {/* Nearshore swell — after wave transformation (solid blue) */}
+          {/* Nearshore swell — after wave transformation (solid cyan) */}
           <Line
             yAxisId="swell"
             type="monotone"
             dataKey="swellHeight"
-            stroke="#2563eb"
+            stroke="#0891b2"
             strokeWidth={2}
             dot={false}
             name="Nearshore (m)"
@@ -204,7 +204,7 @@ const SwellTideChart = () => {
             yAxisId="tide"
             type="monotone"
             dataKey="tideHeight"
-            stroke="#06b6d4"
+            stroke="#14b8a6"
             strokeWidth={1.5}
             dot={false}
             name="Tide (m)"

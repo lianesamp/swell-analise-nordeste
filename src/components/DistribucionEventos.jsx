@@ -80,7 +80,7 @@ const DistribucionEventos = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload || !payload.length) return null;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded shadow text-sm">
+      <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
         <p className="font-semibold mb-1">{label}</p>
         {payload.map((p) => (
           <p key={p.dataKey} style={{ color: p.color }}>
@@ -92,11 +92,11 @@ const DistribucionEventos = () => {
   };
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2 text-gray-900">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Características dos Eventos
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Quando há swell, quais são as características típicas?
         Média, mediana, percentil 90 e máximo por cenário.
       </p>
@@ -107,20 +107,20 @@ const DistribucionEventos = () => {
         <div className="flex gap-2">
           <button
             onClick={() => setActiveWeek("week3")}
-            className={`px-4 py-2 rounded text-sm font-medium transition ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               activeWeek === "week3"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-cyan-600 text-white shadow-sm"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             15–21 março
           </button>
           <button
             onClick={() => setActiveWeek("week4")}
-            className={`px-4 py-2 rounded text-sm font-medium transition ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               activeWeek === "week4"
-                ? "bg-orange-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-amber-500 text-white shadow-sm"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             22–28 março
@@ -133,10 +133,10 @@ const DistribucionEventos = () => {
             <button
               key={m.key}
               onClick={() => setActiveMetric(m.key)}
-              className={`px-3 py-2 rounded text-sm font-medium transition ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 activeMetric === m.key
-                  ? "bg-gray-800 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-slate-800 text-white shadow-sm"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
               }`}
             >
               {m.title}
@@ -150,7 +150,7 @@ const DistribucionEventos = () => {
           data={chartData}
           margin={{ top: 10, right: 30, left: 20, bottom: 60 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
             dataKey="label"
             tick={{ fontSize: 11 }}
@@ -168,14 +168,14 @@ const DistribucionEventos = () => {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey="mean" name="Média" fill="#60a5fa" radius={[2, 2, 0, 0]} />
-          <Bar dataKey="median" name="Mediana" fill="#34d399" radius={[2, 2, 0, 0]} />
-          <Bar dataKey="p90" name="P90" fill="#f97316" radius={[2, 2, 0, 0]} />
-          <Bar dataKey="max" name="Máximo" fill="#ef4444" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="mean" name="Média" fill="#67e8f9" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="median" name="Mediana" fill="#5eead4" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="p90" name="P90" fill="#fbbf24" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="max" name="Máximo" fill="#f97316" radius={[2, 2, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
 
-      <p className="text-xs text-gray-400 mt-2 text-center">
+      <p className="text-xs text-slate-400 mt-2 text-center">
         ERA5 1979–2025 — Estatísticas por cenário (excl. &quot;Exceptional&quot; = 0 eventos)
       </p>
     </section>

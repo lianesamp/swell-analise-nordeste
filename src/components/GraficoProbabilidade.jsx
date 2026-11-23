@@ -59,7 +59,7 @@ const GraficoProbabilidade = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload) return null;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded shadow text-sm">
+      <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
         <p className="font-semibold mb-1">{label}</p>
         {payload.map((entry) => (
           <p key={entry.name} style={{ color: entry.color }}>
@@ -71,11 +71,11 @@ const GraficoProbabilidade = () => {
   };
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2 text-gray-900">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Probabilidade de Swell N/NE — Comparação por Semana
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Barras de erro mostram o intervalo de confiança de Wilson (95%).
       </p>
 
@@ -84,7 +84,7 @@ const GraficoProbabilidade = () => {
           data={chartData}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
             dataKey="label"
             tick={{ fontSize: 11 }}
@@ -103,31 +103,31 @@ const GraficoProbabilidade = () => {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <ReferenceLine y={50} stroke="#9ca3af" strokeDasharray="3 3" />
+          <ReferenceLine y={50} stroke="#94a3b8" strokeDasharray="3 3" />
           <Bar
             dataKey="week3"
             name="15–21 março"
-            fill="#2563eb"
+            fill="#0891b2"
             radius={[4, 4, 0, 0]}
           >
             <ErrorBar
               dataKey="week3_err"
               width={4}
               strokeWidth={1.5}
-              stroke="#1e40af"
+              stroke="#0e7490"
             />
           </Bar>
           <Bar
             dataKey="week4"
             name="22–28 março"
-            fill="#f97316"
+            fill="#f59e0b"
             radius={[4, 4, 0, 0]}
           >
             <ErrorBar
               dataKey="week4_err"
               width={4}
               strokeWidth={1.5}
-              stroke="#c2410c"
+              stroke="#b45309"
             />
           </Bar>
         </BarChart>

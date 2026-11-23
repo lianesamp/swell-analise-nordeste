@@ -34,7 +34,7 @@ const TimelineAnual = () => {
     const d = payload[0].payload;
     const hadEvent = d.had_event === true || d.had_event === "True";
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded shadow text-sm">
+      <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
         <p className="font-semibold">{d.year}</p>
         {hadEvent ? (
           <>
@@ -45,40 +45,40 @@ const TimelineAnual = () => {
             <p>Direção: {d.dominant_direction}</p>
           </>
         ) : (
-          <p className="text-gray-400">Sem evento detectado</p>
+          <p className="text-slate-400">Sem evento detectado</p>
         )}
       </div>
     );
   };
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2 text-gray-900">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Linha do Tempo — Swell N/NE por Ano
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Cenário &quot;good&quot; (Tp médio &ge; 9s, Hs &ge; 1.0m).
-        Barras azuis = anos com evento. Barras cinzas = sem evento.
+        Barras coloridas = anos com evento. Barras cinzas = sem evento.
         {" "}<strong>{yearsWithEvent}/{weekData.length}</strong> anos com evento.
       </p>
 
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setActiveWeek("week3")}
-          className={`px-4 py-2 rounded text-sm font-medium transition ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
             activeWeek === "week3"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-cyan-600 text-white shadow-sm"
+              : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
           15–21 março
         </button>
         <button
           onClick={() => setActiveWeek("week4")}
-          className={`px-4 py-2 rounded text-sm font-medium transition ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
             activeWeek === "week4"
-              ? "bg-orange-500 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-amber-500 text-white shadow-sm"
+              : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
           }`}
         >
           22–28 março
@@ -90,7 +90,7 @@ const TimelineAnual = () => {
           data={weekData}
           margin={{ top: 10, right: 20, left: 20, bottom: 20 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
             dataKey="year"
             tick={{ fontSize: 10 }}
@@ -126,9 +126,9 @@ const TimelineAnual = () => {
                   fill={
                     hadEvent
                       ? activeWeek === "week3"
-                        ? "#2563eb"
-                        : "#f97316"
-                      : "#e5e7eb"
+                        ? "#0891b2"
+                        : "#f59e0b"
+                      : "#e2e8f0"
                   }
                 />
               );
@@ -137,7 +137,7 @@ const TimelineAnual = () => {
         </BarChart>
       </ResponsiveContainer>
 
-      <p className="text-xs text-gray-400 mt-2 text-center">
+      <p className="text-xs text-slate-400 mt-2 text-center">
         {weekLabel} — ERA5 1979–2025
       </p>
     </section>

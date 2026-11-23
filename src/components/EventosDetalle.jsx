@@ -11,12 +11,12 @@ const SCENARIO_LABELS = {
 };
 
 const SCENARIO_COLORS = {
-  any_relevant: "bg-gray-100 text-gray-700",
-  surfable: "bg-blue-100 text-blue-700",
-  good: "bg-green-100 text-green-700",
-  strong: "bg-yellow-100 text-yellow-700",
+  any_relevant: "bg-slate-100 text-slate-700",
+  surfable: "bg-cyan-100 text-cyan-700",
+  good: "bg-teal-100 text-teal-700",
+  strong: "bg-amber-100 text-amber-700",
   very_good: "bg-orange-100 text-orange-700",
-  exceptional: "bg-red-100 text-red-700",
+  exceptional: "bg-rose-100 text-rose-700",
 };
 
 const EventosDetalle = () => {
@@ -78,11 +78,11 @@ const EventosDetalle = () => {
   };
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2 text-gray-900">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Eventos Individuais
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Cada linha é um evento contínuo de swell N/NE detectado no período.
         Clique nos cabeçalhos para ordenar.
       </p>
@@ -90,14 +90,14 @@ const EventosDetalle = () => {
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-4">
         <div>
-          <label className="block text-xs text-gray-500 mb-1" htmlFor="scenario-filter">
+          <label className="block text-xs text-slate-500 mb-1" htmlFor="scenario-filter">
             Cenário
           </label>
           <select
             id="scenario-filter"
             value={scenarioFilter}
             onChange={(e) => setScenarioFilter(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-1.5 text-sm bg-white"
+            className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 outline-none transition-all duration-200"
           >
             <option value="all">Todos</option>
             {Object.entries(SCENARIO_LABELS).map(([key, label]) => (
@@ -107,14 +107,14 @@ const EventosDetalle = () => {
         </div>
 
         <div>
-          <label className="block text-xs text-gray-500 mb-1" htmlFor="week-filter">
+          <label className="block text-xs text-slate-500 mb-1" htmlFor="week-filter">
             Semana
           </label>
           <select
             id="week-filter"
             value={weekFilter}
             onChange={(e) => setWeekFilter(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-1.5 text-sm bg-white"
+            className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 outline-none transition-all duration-200"
           >
             <option value="all">Ambas</option>
             <option value="week3">15–21 março</option>
@@ -123,7 +123,7 @@ const EventosDetalle = () => {
         </div>
 
         <div className="flex items-end">
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-slate-600">
             Mostrando <strong>{filtered.length}</strong> de {eventos.length} eventos
           </span>
         </div>
@@ -133,7 +133,7 @@ const EventosDetalle = () => {
       <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
+            <tr className="bg-slate-50/80 border-b border-slate-200">
               {[
                 { key: "year", label: "Ano" },
                 { key: "start_time", label: "Início" },
@@ -146,7 +146,7 @@ const EventosDetalle = () => {
                 <th
                   key={col.key}
                   onClick={() => handleSort(col.key)}
-                  className="text-left p-2 font-semibold cursor-pointer hover:bg-gray-100 select-none whitespace-nowrap"
+                  className="text-left p-2 font-semibold text-xs uppercase tracking-wider text-slate-600 cursor-pointer hover:bg-slate-100 select-none whitespace-nowrap transition-colors duration-150"
                 >
                   {col.label}{sortIcon(col.key)}
                 </th>
@@ -156,7 +156,7 @@ const EventosDetalle = () => {
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="p-4 text-center text-gray-400">
+                <td colSpan={7} className="p-4 text-center text-slate-400">
                   Nenhum evento encontrado com esses filtros.
                 </td>
               </tr>
@@ -164,14 +164,14 @@ const EventosDetalle = () => {
               filtered.map((ev, i) => (
                 <tr
                   key={`${ev.start_time}-${ev.scenario}-${i}`}
-                  className="border-b border-gray-100 hover:bg-gray-50"
+                  className="border-b border-slate-100 hover:bg-cyan-50/40 transition-colors duration-150"
                 >
-                  <td className="p-2 font-medium">{ev.year}</td>
-                  <td className="p-2 whitespace-nowrap">{formatDate(ev.start_time)}</td>
-                  <td className="p-2 text-right">{ev.duration_hours}</td>
-                  <td className="p-2 text-right">{ev.max_height?.toFixed(2)}</td>
-                  <td className="p-2 text-right">{ev.max_period?.toFixed(1)}</td>
-                  <td className="p-2">{ev.dominant_direction}</td>
+                  <td className="p-2 font-medium text-slate-800">{ev.year}</td>
+                  <td className="p-2 whitespace-nowrap text-slate-600">{formatDate(ev.start_time)}</td>
+                  <td className="p-2 text-right text-slate-600">{ev.duration_hours}</td>
+                  <td className="p-2 text-right text-slate-600">{ev.max_height?.toFixed(2)}</td>
+                  <td className="p-2 text-right text-slate-600">{ev.max_period?.toFixed(1)}</td>
+                  <td className="p-2 text-slate-600">{ev.dominant_direction}</td>
                   <td className="p-2">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${SCENARIO_COLORS[ev.scenario] ?? ""}`}>
                       {SCENARIO_LABELS[ev.scenario] ?? ev.scenario}
@@ -184,7 +184,7 @@ const EventosDetalle = () => {
         </table>
       </div>
 
-      <p className="text-xs text-gray-400 mt-3 text-center">
+      <p className="text-xs text-slate-400 mt-3 text-center">
         ERA5 1979–2025 — Março semanas 3 e 4
       </p>
     </section>

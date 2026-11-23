@@ -44,7 +44,7 @@ const JanelasSurfaveis = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload || !payload.length) return null;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded shadow text-sm">
+      <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-3 text-sm text-white">
         <p className="font-semibold mb-1">Janela {label}</p>
         {payload.map((p) => (
           <p key={p.dataKey} style={{ color: p.color }}>
@@ -56,11 +56,11 @@ const JanelasSurfaveis = () => {
   };
 
   return (
-    <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 max-w-5xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-2 text-gray-900">
+    <section className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-6 md:p-8 max-w-5xl mx-auto my-6">
+      <h2 className="text-xl font-bold mb-2 tracking-tight text-slate-900">
         Janelas Surfáveis — Cenário &quot;Good&quot;
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Probabilidade de encontrar ao menos uma janela contínua de swell N/NE
         com duração {"\u2265"} X horas (Tp {"\u2265"} 9s, Hs {"\u2265"} 1.0m).
       </p>
@@ -70,7 +70,7 @@ const JanelasSurfaveis = () => {
           data={chartData}
           margin={{ top: 10, right: 30, left: 20, bottom: 20 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
             dataKey="window"
             label={{
@@ -94,7 +94,7 @@ const JanelasSurfaveis = () => {
             type="monotone"
             dataKey="week3"
             name="15–21 março"
-            stroke="#2563eb"
+            stroke="#0891b2"
             strokeWidth={2}
             dot={{ r: 5 }}
             activeDot={{ r: 7 }}
@@ -103,7 +103,7 @@ const JanelasSurfaveis = () => {
             type="monotone"
             dataKey="week4"
             name="22–28 março"
-            stroke="#f97316"
+            stroke="#f59e0b"
             strokeWidth={2}
             dot={{ r: 5 }}
             activeDot={{ r: 7 }}
@@ -111,7 +111,7 @@ const JanelasSurfaveis = () => {
         </LineChart>
       </ResponsiveContainer>
 
-      <p className="text-xs text-gray-400 mt-2 text-center">
+      <p className="text-xs text-slate-400 mt-2 text-center">
         ERA5 1979–2025 — Cenário &quot;Good&quot; (Tp {"\u2265"} 9s, Hs{" "}
         {"\u2265"} 1.0m)
       </p>
