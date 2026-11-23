@@ -1,7 +1,6 @@
 import cdsapi
 import os
 import time
-import calendar
 
 # Pasta onde os arquivos serão salvos
 PASTA = r"C:\Users\USER\ERA5_CEARA_HISTORICO"
@@ -15,6 +14,10 @@ ANO_FINAL = 2025
 # Formato da área: [Norte, Oeste, Sul, Leste]
 AREA = [-3.5, -38.5, -3.5, -38.5]
 
+MESES = [f"{m:02d}" for m in range(1, 13)]
+
+DIAS = [f"{d:02d}" for d in range(1, 32)]  # CDS ignora dias inválidos (ex: 31 de fev)
+
 HORAS = [
     "00:00", "01:00", "02:00", "03:00",
     "04:00", "05:00", "06:00", "07:00",
@@ -27,68 +30,63 @@ HORAS = [
 client = cdsapi.Client()
 
 for ano in range(ANO_INICIAL, ANO_FINAL + 1):
-    for mes in range(1, 13):
-        nome_arquivo = f"era5_swell_{ano}_{mes:02d}.nc"
-        arquivo = os.path.join(PASTA, nome_arquivo)
+    nome_arquivo = f"era5_swell_{ano}.nc"
+    arquivo = os.path.join(PASTA, nome_arquivo)
 
-        # Permite retomar sem baixar novamente arquivos já existentes
-        if os.path.exists(arquivo) and os.path.getsize(arquivo) > 0:
-            print(f"{ano}-{mes:02d}: arquivo já existe. Pulando.")
-            continue
+    # Permite retomar sem baixar novamente arquivos já existentes
+    if os.path.exists(arquivo) and os.path.getsize(arquivo) > 10000:
+        print(f"{ano}: arquivo já existe ({os.path.getsize(arquivo):,} bytes). Pulando.")
+        continue
 
-        # Usa apenas os dias válidos de cada mês
-        ultimo_dia = calendar.monthrange(ano, mes)[1]
-        dias = [f"{dia:02d}" for dia in range(1, ultimo_dia + 1)]
+    request = {
+        "product_type": "reanalysis",
+        "variable": [
+            "significant_height_of_total_swell",
+            "mean_direction_of_total_swell",
+            "mean_period_of_total_swell"
+        ],
+        "year": str(ano),
+        "month": MESES,
+        "day": DIAS,
+        "time": HORAS,
+        "area": AREA,
+        "format": "netcdf"
+    }
 
-        request = {
-            "product_type": "reanalysis",
-            "variable": [
-                "significant_height_of_total_swell",
-                "mean_direction_of_total_swell",
-                "mean_period_of_total_swell"
-            ],
-            "year": str(ano),
-            "month": f"{mes:02d}",
-            "day": dias,
-            "time": HORAS,
-            "area": AREA,
-            "format": "netcdf"
-        }
+    print()
+    print("=" * 60)
+    print(f"BAIXANDO {ano} (ano completo — 12 meses)")
+    print("=" * 60)
 
-        print()
-        print("=" * 60)
-        print(f"BAIXANDO {ano}-{mes:02d}")
-        print("=" * 60)
+    try:
+        client.retrieve(
+            "reanalysis-era5-single-levels",
+            request,
+            arquivo
+        )
+        tamanho = os.path.getsize(arquivo)
+        print(f"{ano}: DOWNLOAD OK ({tamanho:,} bytes)")
 
-        try:
-            client.retrieve(
-                "reanalysis-era5-single-levels",
-                request,
-                arquivo
-            )
-            print(f"{ano}-{mes:02d}: DOWNLOAD OK")
-            print(f"Arquivo: {arquivo}")
+    except Exception as erro:
+        print(f"{ano}: ERRO")
+        print(erro)
 
-        except Exception as erro:
-            print(f"{ano}-{mes:02d}: ERRO")
-            print(erro)
+        with open(
+            os.path.join(PASTA, "erros_download.txt"),
+            "a",
+            encoding="utf-8"
+        ) as f:
+            f.write(f"{ano}: {erro}\n")
 
-            with open(
-                os.path.join(PASTA, "erros_download.txt"),
-                "a",
-                encoding="utf-8"
-            ) as f:
-                f.write(f"{ano}-{mes:02d}: {erro}\n")
+        # Remove eventual arquivo incompleto
+        if os.path.exists(arquivo):
+            os.remove(arquivo)
 
-            # Remove eventual arquivo incompleto
-            if os.path.exists(arquivo):
-                os.remove(arquivo)
-
-        time.sleep(2)
+    time.sleep(2)
 
 print()
 print("=" * 60)
 print("PROCESSO DE DOWNLOAD TERMINADO")
 print("=" * 60)
 print(f"Arquivos salvos em: {PASTA}")
-print("Serão gerados até 564 arquivos mensais (1979-2025).")
+print(f"Total esperado: 47 arquivos anuais (1979-2025)")
