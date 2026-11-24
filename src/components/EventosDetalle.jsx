@@ -28,6 +28,8 @@ const EventosDetalle = () => {
   const [weekFilter, setWeekFilter] = useState("all");
   const [sortField, setSortField] = useState("year");
   const [sortAsc, setSortAsc] = useState(false);
+  const [page, setPage] = useState(0);
+  const perPage = 15;
 
   const filtered = useMemo(() => {
     let rows = eventos.filter((d) => d.scenario && d.year);
@@ -51,6 +53,11 @@ const EventosDetalle = () => {
     return rows;
   }, [eventos, scenarioFilter, weekFilter, sortField, sortAsc]);
 
+  // Reset to first page when filters change
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const safeePage = Math.min(page, totalPages - 1);
+  const pageRows = filtered.slice(safeePage * perPage, (safeePage + 1) * perPage);
+
   if (loading) return null;
 
   const handleSort = (field) => {
@@ -60,6 +67,7 @@ const EventosDetalle = () => {
       setSortField(field);
       setSortAsc(false);
     }
+    setPage(0);
   };
 
   const sortIcon = (field) => {
@@ -96,7 +104,7 @@ const EventosDetalle = () => {
           <select
             id="scenario-filter"
             value={scenarioFilter}
-            onChange={(e) => setScenarioFilter(e.target.value)}
+            onChange={(e) => { setScenarioFilter(e.target.value); setPage(0); }}
             className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 outline-none transition-all duration-200"
           >
             <option value="all">All</option>
@@ -113,7 +121,7 @@ const EventosDetalle = () => {
           <select
             id="week-filter"
             value={weekFilter}
-            onChange={(e) => setWeekFilter(e.target.value)}
+            onChange={(e) => { setWeekFilter(e.target.value); setPage(0); }}
             className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 outline-none transition-all duration-200"
           >
             <option value="all">Both</option>
@@ -154,14 +162,14 @@ const EventosDetalle = () => {
             </tr>
           </thead>
           <tbody>
-            {filtered.length === 0 ? (
+            {pageRows.length === 0 ? (
               <tr>
                 <td colSpan={7} className="p-4 text-center text-slate-400">
                   No events found with these filters.
                 </td>
               </tr>
             ) : (
-              filtered.map((ev, i) => (
+              pageRows.map((ev, i) => (
                 <tr
                   key={`${ev.start_time}-${ev.scenario}-${i}`}
                   className="border-b border-slate-100 hover:bg-cyan-50/40 transition-colors duration-150"
@@ -183,6 +191,29 @@ const EventosDetalle = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <button
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={safeePage === 0}
+            className="px-3 py-1.5 text-sm rounded-lg border border-slate-300 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-slate-600">
+            Page <strong>{safeePage + 1}</strong> of {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+            disabled={safeePage >= totalPages - 1}
+            className="px-3 py-1.5 text-sm rounded-lg border border-slate-300 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       <p className="text-xs text-slate-400 mt-3 text-center">
         ERA5 1979–2025 — March weeks 3 and 4
