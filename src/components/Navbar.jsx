@@ -5,14 +5,9 @@ const Navbar = () => {
 
   const links = [
     { href: "#home", label: "Home" },
-    { href: "#forecast", label: "Forecast" },
-    { href: "#probabilidade", label: "Probability" },
-    { href: "#grafico", label: "Chart" },
-    { href: "#direccion", label: "Direction" },
-    { href: "#distribucion", label: "Statistics" },
-    { href: "#timeline", label: "Timeline" },
-    { href: "#janelas", label: "Windows" },
-    { href: "#eventos", label: "Events" },
+    { href: "#forecast", label: "Live Forecast" },
+    { href: "#march-analysis", label: "March Analysis" },
+    { href: "#historical", label: "Historical Research" },
   ];
 
   return (
