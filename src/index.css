@@ -19,3 +19,12 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+/* Offset anchors so sticky navbar doesn't cover section headers */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+div#home {
+  scroll-margin-top: 5rem;
+}
