@@ -114,6 +114,8 @@ New terms and concepts encountered in this project.
 | **Dual Y-axis chart** | A Recharts pattern where two lines share the same X axis but have different Y axes (left and right). Used here: swell height (left, meters) and tide height (right, meters). Each `<Line>` specifies `yAxisId` to bind to its axis. |
 | **ReferenceLine** | A Recharts component that draws a horizontal or vertical line at a fixed value. We use it to show the energy threshold (~0.80m swell = 400 J/m²) as a dashed line. Visually separates "surfable" from "flat" on the chart. |
 | **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that blocks requests to different domains unless the server explicitly allows it. Open-Meteo's API sets CORS headers, so we can call it directly from the browser. Many APIs don't allow this — you'd need a backend proxy. |
+| **Fractional hour** | Representing time as a decimal number for easy comparison. 18:30 becomes 18.5 (hours + minutes/60). Simpler than comparing hours and minutes separately. Used for the daylight filter: `hour >= 5 && hour < 18.5`. |
+| **Data-layer filtering** | Filtering data before it reaches the UI, inside business logic rather than in components. Prevents invalid data from leaking through and keeps the display layer simple. In Laravel terms: filtering in the Service/Repository, not in the Blade view. |
 
 ---
 

@@ -16,6 +16,8 @@ import {
   OFFSHORE_LON,
   FORECAST_DAYS,
   OPEN_METEO_MARINE_URL,
+  DAYLIGHT_START_HOUR,
+  DAYLIGHT_END_HOUR,
 } from "./config.js";
 import { isSurfable, rateConditions, waveEnergy, getWarnings } from "./rules.js";
 import { interpolateTideHeight, getTidePhase } from "./tides.js";
@@ -101,6 +103,24 @@ export function directionLabel(degrees) {
 }
 
 /**
+ * Check if a timestamp falls within Fortaleza daylight hours.
+ *
+ * Fortaleza is near the equator (~3°S), so sunrise and sunset barely
+ * change throughout the year — roughly 05:00 to 18:30. Hours outside
+ * this range are too dark to surf safely.
+ *
+ * We use fractional hours (e.g. 18.5 = 18:30) so the comparison is
+ * a simple number check instead of parsing minutes separately.
+ *
+ * @param {Date} date
+ * @returns {boolean}
+ */
+function isDaylight(date) {
+  const hour = date.getHours() + date.getMinutes() / 60;
+  return hour >= DAYLIGHT_START_HOUR && hour < DAYLIGHT_END_HOUR;
+}
+
+/**
  * Run the full surf check: rate every hour and group into windows.
  *
  * This is the main function the hook calls. It takes raw data
@@ -116,6 +136,9 @@ export function runSurfCheck(swellData, tideData) {
   const surfableHours = [];
 
   for (const swell of swellData) {
+    // Skip nighttime hours — no surfing in the dark
+    if (!isDaylight(swell.time)) continue;
+
     const tideH = interpolateTideHeight(swell.time, tideData);
     const tidePhase = getTidePhase(swell.time, tideData);
     const warnings = getWarnings(tideH, tidePhase);

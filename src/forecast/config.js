@@ -54,6 +54,10 @@ export const BREAKING_INDEX = 0.78;
 export const OPEN_METEO_MARINE_URL = "https://marine-api.open-meteo.com/v1/marine";
 export const FORECAST_DAYS = 7;
 
+// --- Daylight hours (Fortaleza, near the equator — sunrise/sunset barely changes) ---
+export const DAYLIGHT_START_HOUR = 5;    // 05:00 — first light
+export const DAYLIGHT_END_HOUR = 18.5;   // 18:30 — last usable light
+
 // --- Tide reference ---
 export const TIDE_STATION = "Porto de Mucuripe";
 export const TIDE_TIMEZONE = "America/Fortaleza";
