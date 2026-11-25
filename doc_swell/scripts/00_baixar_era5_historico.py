@@ -1,18 +1,26 @@
 """
-00_baixar_era5_historico.py — Download full-year ERA5 swell data, year by year.
+00_baixar_era5_historico.py — Download ERA5 swell data for the swell season.
 
-Downloads monthly NetCDF files for a single grid point offshore Fortaleza.
-Designed to be run repeatedly: skips files that already exist and stops
+Downloads one NetCDF file per year containing only the swell-season months
+(Sep-May) for a single grid point offshore Fortaleza.  This is more
+efficient than downloading all 12 months individually:
+
+  - 1 API request per year instead of 12 (saves CDS quota)
+  - Excludes Jun-Aug (zero N/NE swell) so files are ~500 KB instead of ~800 KB
+  - Produces the exact format the season pipeline expects
+
+The CDS API accepts multiple months in a single request, so we pass
+["01","02","03","04","05","09","10","11","12"] and get one merged file.
+
+Designed to be run repeatedly: skips years that already exist and stops
 gracefully when the CDS API daily quota is exceeded.
 
 Usage:
-    python 00_baixar_era5_historico.py 2025        # download all 12 months of 2025
-    python 00_baixar_era5_historico.py 2025 2016    # download 2025 down to 2016
+    python 00_baixar_era5_historico.py 2023        # download 2023 only
+    python 00_baixar_era5_historico.py 2023 2015    # download 2023 down to 2015
     python 00_baixar_era5_historico.py              # download 2025 down to 2015 (default)
 
-Each monthly file is ~65-70 KB (single grid point, 3 variables, hourly).
-The CDS free tier allows ~10-20 requests per day. If quota is exceeded,
-the script stops and tells you to resume tomorrow.
+Output: data/raw/era5_historico/era5_swell_YYYY_season.nc
 """
 
 import os
@@ -39,6 +47,9 @@ VARIABLES = [
     "mean_period_of_total_swell",
 ]
 
+# Swell season months only (Jun, Jul, Aug excluded — no N/NE swell)
+SEASON_MONTHS = ["01", "02", "03", "04", "05", "09", "10", "11", "12"]
+
 # CDS ignores invalid days (e.g. Feb 31), so we can always request 1-31
 DAYS = [f"{d:02d}" for d in range(1, 32)]
 
@@ -51,8 +62,9 @@ DEFAULT_YEAR_END = 2015
 # Seconds to wait between requests (be gentle on the API)
 SLEEP_BETWEEN = 5
 
-# Minimum file size in bytes to consider a download complete
-MIN_FILE_SIZE = 10_000
+# Minimum file size in bytes to consider a download complete.
+# A season file (9 months, single point, hourly) is ~480-520 KB.
+MIN_FILE_SIZE = 100_000
 
 
 # ---------------------------------------------------------------------------
@@ -64,29 +76,32 @@ def is_quota_error(error_msg: str) -> bool:
     return "403" in msg or "cost limit" in msg or "forbidden" in msg
 
 
-def download_month(client: cdsapi.Client, year: int, month: int) -> bool:
+def download_season(client: cdsapi.Client, year: int) -> bool:
     """
-    Download one month of ERA5 data. Returns True if successful or skipped,
-    False if quota was hit (caller should stop).
-    Raises Exception for other errors.
+    Download one year's swell-season data as a single file.
+
+    Returns True if successful or skipped, False if quota was hit.
+
+    The CDS API merges all requested months into one NetCDF file
+    automatically.  So requesting months [01,02,...,05,09,...,12]
+    produces a single file with ~6500 hourly timestamps.
     """
-    month_str = f"{month:02d}"
-    filename = f"era5_swell_{year}_{month_str}.nc"
+    filename = f"era5_swell_{year}_season.nc"
     filepath = os.path.join(OUTPUT_DIR, filename)
 
     # Skip if already downloaded
     if os.path.exists(filepath) and os.path.getsize(filepath) > MIN_FILE_SIZE:
         size_kb = os.path.getsize(filepath) / 1024
-        print(f"  {year}-{month_str}: already exists ({size_kb:.0f} KB). Skipping.")
+        print(f"  {year}: already exists ({size_kb:.0f} KB). Skipping.")
         return True
 
-    print(f"  {year}-{month_str}: downloading...", end=" ", flush=True)
+    print(f"  {year}: downloading 9 season months...", end=" ", flush=True)
 
     request = {
         "product_type": "reanalysis",
         "variable": VARIABLES,
         "year": str(year),
-        "month": month_str,
+        "month": SEASON_MONTHS,
         "day": DAYS,
         "time": HOURS,
         "area": AREA,
@@ -108,47 +123,15 @@ def download_month(client: cdsapi.Client, year: int, month: int) -> bool:
             print("QUOTA EXCEEDED")
             return False
 
-        # Other error — log and continue to next month
+        # Other error — log and continue to next year
         print(f"ERROR: {err}")
         log_path = os.path.join(OUTPUT_DIR, "errors.txt")
         with open(log_path, "a", encoding="utf-8") as f:
-            f.write(f"{year}-{month_str}: {err}\n")
+            f.write(f"{year}: {err}\n")
         return True  # True = keep going (not a quota issue)
 
 
-def download_year(client: cdsapi.Client, year: int) -> bool:
-    """
-    Download all 12 months of a year. Returns True if completed,
-    False if quota was hit mid-year.
-    """
-    # Count how many months are already done
-    existing = sum(
-        1 for m in range(1, 13)
-        if os.path.exists(os.path.join(OUTPUT_DIR, f"era5_swell_{year}_{m:02d}.nc"))
-        and os.path.getsize(os.path.join(OUTPUT_DIR, f"era5_swell_{year}_{m:02d}.nc")) > MIN_FILE_SIZE
-    )
-
-    print(f"\n{'=' * 60}")
-    print(f"YEAR {year}  ({existing}/12 months already downloaded)")
-    print(f"{'=' * 60}")
-
-    for month in range(1, 13):
-        ok = download_month(client, year, month)
-        if not ok:
-            return False
-        time.sleep(SLEEP_BETWEEN)
-
-    # Verify completeness
-    done = sum(
-        1 for m in range(1, 13)
-        if os.path.exists(os.path.join(OUTPUT_DIR, f"era5_swell_{year}_{m:02d}.nc"))
-        and os.path.getsize(os.path.join(OUTPUT_DIR, f"era5_swell_{year}_{m:02d}.nc")) > MIN_FILE_SIZE
-    )
-    print(f"\n  Year {year}: {done}/12 months complete.")
-    return True
-
-
-def main():
+def main() -> None:
     # Parse arguments
     args = sys.argv[1:]
 
@@ -165,6 +148,11 @@ def main():
         print("Usage: python 00_baixar_era5_historico.py [year_start] [year_end]")
         print("  year_start: most recent year (default: 2025)")
         print("  year_end:   oldest year (default: 2015)")
+        print()
+        print("Examples:")
+        print("  python 00_baixar_era5_historico.py 2023        # 2023 only")
+        print("  python 00_baixar_era5_historico.py 2023 2015    # 2023 down to 2015")
+        print("  python 00_baixar_era5_historico.py              # 2025 down to 2015")
         sys.exit(1)
 
     # Ensure descending order (most recent first)
@@ -173,36 +161,44 @@ def main():
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    print("ERA5 Historical Download — Ceara Swell")
+    print("ERA5 Season Download — Ceara Swell (Front 3)")
     print(f"Point: {LAT}, {LON}")
     print(f"Years: {year_from} down to {year_to}")
+    print(f"Months: {', '.join(SEASON_MONTHS)} (swell season only)")
     print(f"Output: {OUTPUT_DIR}")
     print(f"Variables: height, direction, period (total swell)")
     print(f"Sleep between requests: {SLEEP_BETWEEN}s")
+    print()
 
     client = cdsapi.Client()
 
     total_years_done = 0
     for year in range(year_from, year_to - 1, -1):
-        completed = download_year(client, year)
+        completed = download_season(client, year)
         if not completed:
             print()
             print("=" * 60)
             print("STOPPED — CDS API daily quota exceeded.")
-            print(f"Completed {total_years_done} full year(s) in this session.")
+            print(f"Completed {total_years_done} year(s) in this session.")
             print()
             print("Resume tomorrow with the same command:")
             print(f"  python {os.path.basename(__file__)} {year} {year_to}")
             print("(already downloaded files will be skipped)")
             print("=" * 60)
             sys.exit(0)
+
         total_years_done += 1
+        time.sleep(SLEEP_BETWEEN)
 
     print()
     print("=" * 60)
     print("ALL DOWNLOADS COMPLETE")
     print(f"Years: {year_from} to {year_to} ({total_years_done} years)")
     print(f"Files: {OUTPUT_DIR}")
+    print()
+    print("Next step: run the season pipeline")
+    print("  cd doc_swell/scripts/season")
+    print("  python cli.py run")
     print("=" * 60)
 
 
