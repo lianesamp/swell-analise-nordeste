@@ -17,11 +17,11 @@ import { useHistoricalData } from "../hooks/useHistoricalData";
  * filtered by the "surfable" scenario (from the pipeline).
  */
 
-const SEASON_ORDER = [9, 10, 11, 12, 1, 2, 3, 4, 5];
+const SEASON_ORDER = [10, 11, 12, 1, 2, 3, 4, 5];
 
 const MONTH_LABELS = {
   1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May",
-  9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec",
+  10: "Oct", 11: "Nov", 12: "Dec",
 };
 
 /**

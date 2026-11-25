@@ -24,19 +24,18 @@ import {
  * This is the main "which month is best?" visualization for Front 3.
  */
 
-const SEASON_ORDER = [9, 10, 11, 12, 1, 2, 3, 4, 5];
+const SEASON_ORDER = [10, 11, 12, 1, 2, 3, 4, 5];
 
 const SCENARIOS = [
-  { key: "surfable", label: "Surfable" },
-  { key: "good", label: "Good" },
-  { key: "strong", label: "Strong" },
-  { key: "very_good", label: "Very good" },
+  { key: "surfable", label: "Surfable", desc: "Tp \u2265 9s, Hs \u2265 0.8m" },
+  { key: "good", label: "Good", desc: "Tp \u2265 9s, Hs \u2265 1.0m" },
+  { key: "strong", label: "Strong", desc: "Tp \u2265 9s, Hs \u2265 1.2m" },
+  { key: "very_good", label: "Very good", desc: "Tp \u2265 9s, Hs \u2265 1.5m" },
 ];
 
 // Color gradient: warmer months get warmer colors
 const MONTH_COLORS = {
-  9: "#94a3b8",   // Sep — slate (season start)
-  10: "#f97316",  // Oct — orange
+  10: "#f97316",  // Oct — orange (season start)
   11: "#ef4444",  // Nov — red
   12: "#dc2626",  // Dec — deep red (peak)
   1: "#b91c1c",   // Jan — dark red (peak)
@@ -103,7 +102,7 @@ const SeasonalityChart = () => {
       <p className="text-sm text-slate-500 mb-4">
         Chance of at least one N/NE swell event per month.
         Error bars show Wilson 95% CI.
-        Scenario: <strong>{scenarioInfo?.label}</strong>.
+        Scenario: <strong>{scenarioInfo?.label}</strong> ({scenarioInfo?.desc}).
       </p>
 
       <div className="flex flex-wrap gap-2 mb-4">
@@ -117,7 +116,12 @@ const SeasonalityChart = () => {
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
-            {s.label}
+            <span>{s.label}</span>
+            <span className={`block text-[10px] font-normal mt-0.5 ${
+              activeScenario === s.key ? "text-cyan-200" : "text-slate-400"
+            }`}>
+              {s.desc}
+            </span>
           </button>
         ))}
       </div>
@@ -155,7 +159,7 @@ const SeasonalityChart = () => {
       </ResponsiveContainer>
 
       <p className="text-xs text-slate-400 mt-2 text-center">
-        ERA5 swell season (Sep–May) — {chartData[0]?.total_years || "?"} year(s) of data
+        ERA5 swell season (Oct–May) — {Math.max(...chartData.map((d) => d.total_years || 0))} year(s) of data
       </p>
     </section>
   );

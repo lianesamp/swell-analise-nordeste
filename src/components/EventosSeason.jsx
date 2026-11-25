@@ -31,7 +31,7 @@ const SCENARIO_COLORS = {
 
 const MONTH_LABELS = {
   1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May",
-  9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec",
+  10: "Oct", 11: "Nov", 12: "Dec",
 };
 
 const EventosSeason = () => {
@@ -48,7 +48,7 @@ const EventosSeason = () => {
   const availableMonths = useMemo(() => {
     const months = [...new Set(eventos.filter((d) => d.month).map((d) => d.month))];
     // Sort in season order
-    const order = [9, 10, 11, 12, 1, 2, 3, 4, 5];
+    const order = [10, 11, 12, 1, 2, 3, 4, 5];
     return months.sort((a, b) => order.indexOf(a) - order.indexOf(b));
   }, [eventos]);
 
@@ -237,7 +237,7 @@ const EventosSeason = () => {
       )}
 
       <p className="text-xs text-slate-400 mt-3 text-center">
-        ERA5 swell season (Sep–May) — N/NE direction filter
+        ERA5 swell season (Oct–May) — N/NE direction filter
       </p>
     </section>
   );

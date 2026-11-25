@@ -2,15 +2,15 @@
 00_baixar_era5_historico.py — Download ERA5 swell data for the swell season.
 
 Downloads one NetCDF file per year containing only the swell-season months
-(Sep-May) for a single grid point offshore Fortaleza.  This is more
+(Oct-May) for a single grid point offshore Fortaleza.  This is more
 efficient than downloading all 12 months individually:
 
   - 1 API request per year instead of 12 (saves CDS quota)
-  - Excludes Jun-Aug (zero N/NE swell) so files are ~500 KB instead of ~800 KB
+  - Excludes Jun-Sep (zero N/NE swell) so files are ~450 KB instead of ~800 KB
   - Produces the exact format the season pipeline expects
 
 The CDS API accepts multiple months in a single request, so we pass
-["01","02","03","04","05","09","10","11","12"] and get one merged file.
+["01","02","03","04","05","10","11","12"] and get one merged file.
 
 Designed to be run repeatedly: skips years that already exist and stops
 gracefully when the CDS API daily quota is exceeded.
@@ -47,8 +47,8 @@ VARIABLES = [
     "mean_period_of_total_swell",
 ]
 
-# Swell season months only (Jun, Jul, Aug excluded — no N/NE swell)
-SEASON_MONTHS = ["01", "02", "03", "04", "05", "09", "10", "11", "12"]
+# Swell season months only (Jun-Sep excluded — no N/NE swell)
+SEASON_MONTHS = ["01", "02", "03", "04", "05", "10", "11", "12"]
 
 # CDS ignores invalid days (e.g. Feb 31), so we can always request 1-31
 DAYS = [f"{d:02d}" for d in range(1, 32)]
@@ -63,7 +63,7 @@ DEFAULT_YEAR_END = 2015
 SLEEP_BETWEEN = 5
 
 # Minimum file size in bytes to consider a download complete.
-# A season file (9 months, single point, hourly) is ~480-520 KB.
+# A season file (8 months, single point, hourly) is ~430-480 KB.
 MIN_FILE_SIZE = 100_000
 
 
@@ -95,7 +95,7 @@ def download_season(client: cdsapi.Client, year: int) -> bool:
         print(f"  {year}: already exists ({size_kb:.0f} KB). Skipping.")
         return True
 
-    print(f"  {year}: downloading 9 season months...", end=" ", flush=True)
+    print(f"  {year}: downloading 8 season months...", end=" ", flush=True)
 
     request = {
         "product_type": "reanalysis",

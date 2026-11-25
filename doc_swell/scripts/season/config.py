@@ -8,7 +8,7 @@ files, and the year range we have data for.
 
 Why a separate config instead of extending the March one?
   - The March pipeline analyzes 2 specific weeks across 47 years.
-  - The Season pipeline analyzes 9 months across 10+ years.
+  - The Season pipeline analyzes 8 months across 10+ years.
   - Different time granularity, different output files, different questions.
   - Keeping them separate avoids coupling: changes to one don't break the other.
 """
@@ -55,16 +55,16 @@ WINDOW_DURATIONS: list[int] = _march_cfg.WINDOW_DURATIONS
 # Season-specific settings
 # ---------------------------------------------------------------------------
 
-# Swell season months: September through May.
-# June, July, August have essentially zero N/NE swell at Praia de Iracema
+# Swell season months: October through May.
+# June–September have essentially zero N/NE swell at Praia de Iracema
 # because the ITCZ (Intertropical Convergence Zone) is too far north for
 # North Atlantic swells to reach Ceara.
-SEASON_MONTHS = [9, 10, 11, 12, 1, 2, 3, 4, 5]
+SEASON_MONTHS = [10, 11, 12, 1, 2, 3, 4, 5]
 
-# Human-readable month labels (Portuguese abbreviations for display)
+# Human-readable month labels for display
 MONTH_LABELS = {
     1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May",
-    9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec",
+    10: "Oct", 11: "Nov", 12: "Dec",
 }
 
 # Year range for the season analysis.
@@ -97,7 +97,7 @@ MONTHLY_SUMMARY_CSV = os.path.join(CLIMATOLOGY_DIR, "monthly_summary.csv")
 # File naming convention
 #
 # Each year's season file: era5_swell_YYYY_season.nc
-# Contains months Sep-May (9 months) of hourly data for a single grid point.
+# Contains months Oct-May (8 months) of hourly data for a single grid point.
 # ---------------------------------------------------------------------------
 def season_filename(year: int) -> str:
     """Return the expected filename for a year's season data."""

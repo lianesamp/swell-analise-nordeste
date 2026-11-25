@@ -94,7 +94,7 @@ function App() {
             label="In Progress"
             labelColor="bg-amber-100 text-amber-700"
             title="Historical Patterns — Fortaleza"
-            subtitle="Swell seasonality analysis using ERA5 reanalysis (Sep–May). Data is being acquired — statistics will sharpen as more years are added."
+            subtitle="Swell seasonality analysis using ERA5 reanalysis (Oct–May). Data is being acquired — statistics will sharpen as more years are added."
           />
           <OverviewCards />
           <SeasonalityChart />
