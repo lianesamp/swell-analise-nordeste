@@ -9,6 +9,10 @@ import DistribucionEventos from './components/DistribucionEventos';
 import TimelineAnual from './components/TimelineAnual';
 import JanelasSurfaveis from './components/JanelasSurfaveis';
 import EventosDetalle from './components/EventosDetalle';
+import OverviewCards from './components/OverviewCards';
+import SeasonalityChart from './components/SeasonalityChart';
+import MonthlyHeatmap from './components/MonthlyHeatmap';
+import EventosSeason from './components/EventosSeason';
 
 function SectionDivider() {
   return (
@@ -84,52 +88,18 @@ function App() {
 
         <SectionDivider />
 
-        {/* ── Front 3: Historical Patterns (Coming Soon) ── */}
+        {/* ── Front 3: Historical Patterns ── */}
         <section id="historical">
           <SectionHeader
             label="In Progress"
             labelColor="bg-amber-100 text-amber-700"
             title="Historical Patterns — Fortaleza"
-            subtitle="Long-term swell research using 10+ years of seasonal data (Oct-May). Currently acquiring data from ERA5."
+            subtitle="Swell seasonality analysis using ERA5 reanalysis (Sep–May). Data is being acquired — statistics will sharpen as more years are added."
           />
-          <div className="max-w-5xl mx-auto px-4 mt-4 mb-6">
-            <div className="bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-lg shadow-slate-200/50 p-8 md:p-10">
-              <div className="grid md:grid-cols-3 gap-6 text-center md:text-left">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Goal</p>
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    Identify swell seasonality, return periods, and multi-year trends
-                    for N/NE swell arrivals at Fortaleza.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Data</p>
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    ERA5 reanalysis — swell season months (Sep–May), 10+ years,
-                    hourly resolution at the offshore reference point.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Status</p>
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    Downloading data from Copernicus CDS. Pipeline and frontend
-                    will be built once the first year is processed.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                {["Seasonality chart", "Monthly heatmap", "Event browser", "Trend analysis"].map((item) => (
-                  <span
-                    key={item}
-                    className="text-xs font-medium text-slate-400 border border-slate-200 rounded-full px-3 py-1"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <OverviewCards />
+          <SeasonalityChart />
+          <MonthlyHeatmap />
+          <EventosSeason />
         </section>
       </main>
 
